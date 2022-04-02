@@ -102,6 +102,29 @@ class PenyewaanController extends Controller
 
         $penyewaan->nama = $updateData['nama'];
 
+        $penyewaan->id_pegawai = $updateData['id_pegawai'];
+        $penyewaan->id_driver = $updateData['id_driver'];
+        $penyewaan->id_customer = $updateData['id_customer'];
+        $penyewaan->id_mobil = $updateData['id_mobil'];
+        $penyewaan->id_promo = $updateData['id_promo'];
+        $penyewaan->jenis_penyewaan = $updateData['jenis_penyewaan'];
+        $penyewaan->tanggal_penyewaan = $updateData['tanggal_penyewaan'];
+        $penyewaan->tanggal_mulai_sewa = $updateData['tanggal_mulai_sewa'];
+        $penyewaan->tanggal_selesai = $updateData['tanggal_selesai'];
+        $penyewaan->tanggal_pengembalian = $updateData['tanggal_pengembalian'];
+        $penyewaan->total_harga_sewa = $updateData['total_harga_sewa'];
+        $penyewaan->status_penyewaan = $updateData['status_penyewaan'];
+        $penyewaan->tanggal_pembayaran = $updateData['tanggal_pembayaran'];
+        $penyewaan->metode_pambayaran = $updateData['metode_pambayaran'];
+        $penyewaan->total_diskon = $updateData['total_diskon'];
+        $penyewaan->total_denda = $updateData['total_denda'];
+        $penyewaan->total_harga_bayar = $updateData['total_harga_bayar'];
+        $penyewaan->url_bukti_pembayaran = $updateData['url_bukti_pembayaran'];
+        $penyewaan->rating_driver = $updateData['rating_driver'];
+        $penyewaan->performa_driver = $updateData['performa_driver'];
+        $penyewaan->rating_perusahaan = $updateData['rating_perusahaan'];
+        $penyewaan->performa_perusahaan = $updateData['performa_perusahaan'];
+
         if($penyewaan->save()) {
             return response([
                 'message' => 'Update Penyewaan Success',

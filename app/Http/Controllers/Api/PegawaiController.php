@@ -100,7 +100,15 @@ class PegawaiController extends Controller
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
+        $pegawai->id_role = $updateData['id_role'];
         $pegawai->nama = $updateData['nama'];
+        $pegawai->alamat = $updateData['alamat'];
+        $pegawai->tanggal_lahir = $updateData['tanggal_lahir'];
+        $pegawai->jenis_kelamin = $updateData['jenis_kelamin'];
+        $pegawai->email = $updateData['email'];
+        $pegawai->no_telp = $updateData['no_telp'];
+        $pegawai->password = $updateData['password'];
+        $pegawai->url_foto = $updateData['url_foto'];
 
         if($pegawai->save()) {
             return response([

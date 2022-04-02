@@ -99,8 +99,12 @@ class PromoController extends Controller
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
-
-        $promo->nama = $updateData['nama'];
+            
+        $promo->kode_promo = $updateData['kode_promo'];
+        $promo->jenis_promo = $updateData['jenis_promo'];
+        $promo->keterangan = $updateData['keterangan'];
+        $promo->diskon_promo = $updateData['diskon_promo'];
+        $promo->status_promo = $updateData['status_promo'];
 
         if($promo->save()) {
             return response([

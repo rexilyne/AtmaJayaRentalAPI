@@ -101,6 +101,14 @@ class CustomerController extends Controller
             return response(['message' => $validate->errors()], 400);
 
         $customer->nama = $updateData['nama'];
+        $customer->alamat = $updateData['alamat'];
+        $customer->tanggal_lahir = $updateData['tanggal_lahir'];
+        $customer->jenis_kelamin = $updateData['jenis_kelamin'];
+        $customer->email = $updateData['email'];
+        $customer->no_telp = $updateData['no_telp'];
+        $customer->password = $updateData['password'];
+        $customer->url_sim = $updateData['url_sim'];
+        $customer->url_kartu_identitas = $updateData['url_kartu_identitas'];
 
         if($customer->save()) {
             return response([

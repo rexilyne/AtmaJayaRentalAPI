@@ -101,6 +101,9 @@ class PemilikMobilController extends Controller
             return response(['message' => $validate->errors()], 400);
 
         $pemilikMobil->nama = $updateData['nama'];
+        $pemilikMobil->no_ktp = $updateData['no_ktp'];
+        $pemilikMobil->alamat = $updateData['alamat'];
+        $pemilikMobil->no_telp = $updateData['no_telp'];
 
         if($pemilikMobil->save()) {
             return response([

@@ -100,7 +100,24 @@ class MobilController extends Controller
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $mobil->nama = $updateData['nama'];
+        $mobil->id_pemilik_mobil = $updateData['id_pemilik_mobil'];
+        $mobil->nama_mobil = $updateData['nama_mobil'];
+        $mobil->tipe_mobil = $updateData['tipe_mobil'];
+        $mobil->jenis_transmisi = $updateData['jenis_transmisi'];
+        $mobil->jenis_bahan_bakar = $updateData['jenis_bahan_bakar'];
+        $mobil->warna_mobil = $updateData['warna_mobil'];
+        $mobil->volume_bagasi = $updateData['volume_bagasi'];
+        $mobil->fasilitas = $updateData['fasilitas'];
+        $mobil->kapasitas_penumpang = $updateData['kapasitas_penumpang'];
+        $mobil->plat_nomor = $updateData['plat_nomor'];
+        $mobil->nomor_stnk = $updateData['nomor_stnk'];
+        $mobil->kategori_aset = $updateData['kategori_aset'];
+        $mobil->harga_sewa = $updateData['harga_sewa'];
+        $mobil->status_sewa = $updateData['status_sewa'];
+        $mobil->tanggal_terakhir_kali_servis = $updateData['tanggal_terakhir_kali_servis'];
+        $mobil->periode_kontrak_mulai = $updateData['periode_kontrak_mulai'];
+        $mobil->periode_kontrak_akhir = $updateData['periode_kontrak_akhir'];
+        $mobil->url_foto = $updateData['url_foto'];
 
         if($mobil->save()) {
             return response([

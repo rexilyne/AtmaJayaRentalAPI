@@ -100,7 +100,8 @@ class DetailJadwalController extends Controller
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $detailJadwal->nama = $updateData['nama'];
+        $detailJadwal->id_jadwal = $updateData['id_jadwal'];
+        $detailJadwal->id_pegawai = $updateData['id_pegawai'];
 
         if($detailJadwal->save()) {
             return response([
