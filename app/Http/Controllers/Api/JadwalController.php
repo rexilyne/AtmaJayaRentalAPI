@@ -11,12 +11,12 @@ class JadwalController extends Controller
 {
     //
     public function index() {
-        $jadwal = Jadwal::all();
+        $jadwals = Jadwal::all();
 
-        if(count($jadwal) > 0) {
+        if(count($jadwals) > 0) {
             return response([
                 'message' => 'Retrieve All Success',
-                'data' => $jadwal
+                'data' => $jadwals
             ], 200);
         }
 
