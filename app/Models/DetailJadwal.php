@@ -10,4 +10,9 @@ class DetailJadwal extends Model
     use HasFactory;
 
     protected $table = "detail_jadwal";
+
+    protected $fillable = [
+        'id_jadwal',
+        'id_pegawai'
+    ];
 }

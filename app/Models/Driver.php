@@ -10,4 +10,23 @@ class Driver extends Model
     use HasFactory;
 
     protected $table = "driver";
+    protected $primaryKey = 'id_driver';
+
+    protected $fillable = [
+        'nama',
+        'alamat',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'email',
+        'no_telp',
+        'bahasa',
+        'status_driver',
+        'password',
+        'tarif_driver',
+        'rerata_rating',
+        'url_sim',
+        'url_surat_bebas_napza',
+        'url_surat_kesehatan_jiwa',
+        'url_skck'
+    ];
 }

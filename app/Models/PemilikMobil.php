@@ -10,4 +10,12 @@ class PemilikMobil extends Model
     use HasFactory;
 
     protected $table = "pemilik_mobil";
+    protected $primaryKey = 'id_pemilik_moibl';
+
+    protected $fillable = [
+        'nama',
+        'no_ktp',
+        'alamat',
+        'no_telp'
+    ];
 }
