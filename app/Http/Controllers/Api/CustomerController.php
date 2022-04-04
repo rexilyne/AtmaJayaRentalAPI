@@ -45,7 +45,7 @@ class CustomerController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            ''
         ]);
 
         if($validate->fails())

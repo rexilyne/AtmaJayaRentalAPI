@@ -13,6 +13,7 @@ class Driver extends Model
     protected $primaryKey = 'id_driver';
 
     protected $fillable = [
+        'id_driver',
         'nama',
         'alamat',
         'tanggal_lahir',

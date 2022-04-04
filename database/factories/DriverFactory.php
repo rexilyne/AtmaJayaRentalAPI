@@ -16,6 +16,8 @@ class DriverFactory extends Factory
      */
     public function definition()
     {
+        static $drivId = 1;
+        static $countDays = 0;
         $faker = $this->faker;
         $gender = $faker->randomElement(['male', 'female']);
         $jenisKelamin = ($gender === 'male' ? 'Laki-laki' : 'Perempuan');
@@ -26,8 +28,11 @@ class DriverFactory extends Factory
         $tarifDriv = $faker->randomElement([10000.0, 15000.0, 20000.0, 25000.0, 30000.0]);
         $rerataRating = $faker->randomElement([4.0, 4.2, 4.5, 4.7, 4.9]);
         $tglLahirDriv = $faker->date($format = 'Y-m-d', $max = '-20years');
+
+        $drivRegDate = date('ymd', strtotime('February 1 2022 +'.$countDays.' days'));
         return [
             //
+            'id_driver' => 'DRV'.$drivRegDate.'-'.$drivId++,
             'nama' => $firstNameDriv.' '.$lastNameDriv,
             'alamat' => $faker->address(),
             'tanggal_lahir' => $tglLahirDriv,

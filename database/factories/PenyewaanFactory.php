@@ -40,12 +40,13 @@ class PenyewaanFactory extends Factory
 
         $minIdDriver = Driver::min('id_driver');
         $maxIdDriver = Driver::max('id_driver');
+        $idDriverArray = array_column(DB::table('driver')->select('id_driver')->get()->toArray(), 'id_driver');
         $idDriver = null;
         $cekTidakPunyaSim = DB::table('customer')->select('*')->where('id_customer', $idCustomer)->get();
         if($cekTidakPunyaSim[0]->url_sim === '-') {
-            $idDriver = $faker->numberBetween($minIdDriver, $maxIdDriver); // Jika tidak punya SIM
+            $idDriver = $faker->randomElement($idDriverArray); // Jika tidak punya SIM
         } else {
-            $idDriver = $faker->randomElement([$faker->numberBetween($minIdDriver, $maxIdDriver), null]); // Jika punya SIM
+            $idDriver = $faker->randomElement([$faker->randomElement($idDriverArray), null]); // Jika punya SIM
         }
 
         $minIdMobil = Mobil::min('id_mobil');
