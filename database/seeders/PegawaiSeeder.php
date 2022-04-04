@@ -27,6 +27,7 @@ class PegawaiSeeder extends Seeder
         DB::table('pegawai')->insert([
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+            'status_akun' => 'Aktif',
             'id_role' => 1,
             'nama' => $firstNamePeg.' '.$lastNamePeg,
             'alamat' => $faker->address(),

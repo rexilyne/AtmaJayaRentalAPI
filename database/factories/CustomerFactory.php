@@ -34,6 +34,7 @@ class CustomerFactory extends Factory
         return [
             //
             'id_customer' => 'CUS'.$custRegDate.'-'.$cusId++,
+            'status_akun' => 'Aktif',
             'nama' => $firstNameCust.' '.$lastNameCust,
             'alamat' => $faker->address(),
             'tanggal_lahir' => $tglLahirCust,

@@ -21,8 +21,10 @@ class PegawaiFactory extends Factory
         $jenisKelamin = ($gender === 'male' ? 'Laki-laki' : 'Perempuan');
         $firstNamePeg = $faker->firstName($gender);
         $lastNamePeg = $faker->lastName($gender);
+
         return [
             //
+            'status_akun' => 'Aktif',
             'id_role' => $faker->numberBetween(2, 3),
             'nama' => $firstNamePeg.' '.$lastNamePeg,
             'alamat' => $faker->address(),

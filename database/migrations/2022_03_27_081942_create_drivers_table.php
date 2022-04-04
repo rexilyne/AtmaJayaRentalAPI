@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('id_driver')->unique();
             $table->timestamps();
+            $table->string('status_akun');
             $table->string('nama');
             $table->string('alamat');
             $table->date('tanggal_lahir');

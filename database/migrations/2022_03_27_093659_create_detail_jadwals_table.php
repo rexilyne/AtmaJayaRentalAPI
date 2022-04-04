@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedInteger('id_jadwal');
             $table->unsignedInteger('id_pegawai');
 
-            $table->foreign('id_jadwal')->references('id_jadwal')->on('jadwal');
-            $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawai');
+            $table->foreign('id_jadwal')->references('id_jadwal')->on('jadwal')->cascadeOnDelete();
+            $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawai')->cascadeOnDelete();
         });
     }
 

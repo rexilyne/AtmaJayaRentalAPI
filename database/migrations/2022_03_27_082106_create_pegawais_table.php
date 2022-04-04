@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pegawai', function (Blueprint $table) {
             $table->increments('id_pegawai');
             $table->timestamps();
+            $table->string('status_akun');
             $table->unsignedInteger('id_role');
             $table->string('nama');
             $table->string('alamat');

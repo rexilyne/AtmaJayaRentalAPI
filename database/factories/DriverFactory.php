@@ -33,6 +33,7 @@ class DriverFactory extends Factory
         return [
             //
             'id_driver' => 'DRV'.$drivRegDate.'-'.$drivId++,
+            'status_akun' => 'Aktif',
             'nama' => $firstNameDriv.' '.$lastNameDriv,
             'alamat' => $faker->address(),
             'tanggal_lahir' => $tglLahirDriv,
