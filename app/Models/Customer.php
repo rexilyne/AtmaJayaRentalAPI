@@ -10,9 +10,6 @@ class Customer extends Model
     use HasFactory;
 
     protected $table = "customer";
-    protected $primaryKey = 'id_customer';
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     protected $fillable = [
         'id_customer',

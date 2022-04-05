@@ -10,9 +10,6 @@ class Penyewaan extends Model
     use HasFactory;
 
     protected $table = "penyewaan";
-    protected $primaryKey = 'id_penyewaan';
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     protected $fillable = [
         'id_penyewaan',
