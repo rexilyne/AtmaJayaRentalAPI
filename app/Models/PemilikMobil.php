@@ -13,6 +13,7 @@ class PemilikMobil extends Model
     protected $primaryKey = 'id_pemilik_moibl';
 
     protected $fillable = [
+        'status_pemilik',
         'nama',
         'no_ktp',
         'alamat',

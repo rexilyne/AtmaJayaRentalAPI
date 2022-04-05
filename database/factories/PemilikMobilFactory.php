@@ -23,6 +23,7 @@ class PemilikMobilFactory extends Factory
         $lastNamePem = $faker->lastName($gender);
         return [
             //
+            'status_pemilik' => 'Aktif',
             'nama' => $firstNamePem.' '.$lastNamePem,
             'no_ktp' => $faker->nik(),
             'alamat' => $faker->address(),

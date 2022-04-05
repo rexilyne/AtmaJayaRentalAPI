@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pemilik_mobil', function (Blueprint $table) {
             $table->increments('id_pemilik_mobil');
             $table->timestamps();
+            $table->string('status_pemilik');
             $table->string('nama');
             $table->string('no_ktp');
             $table->string('alamat');
