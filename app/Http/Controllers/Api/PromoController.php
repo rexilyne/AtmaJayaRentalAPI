@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Promo;
+use Illuminate\Validation\Rule;
 
 class PromoController extends Controller
 {
@@ -45,7 +46,11 @@ class PromoController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            'kode_promo' => 'required|unique:promo',
+            'jenis_promo' => 'required',
+            'keterangan' => 'required',
+            'diskon_promo' => 'required',
+            'status_promo' => 'required'
         ]);
 
         if($validate->fails())
@@ -94,7 +99,11 @@ class PromoController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'kode_promo' => ['required', Rule::unique('promo')->ignore($promo)],
+            'jenis_promo' => 'required',
+            'keterangan' => 'required',
+            'diskon_promo' => 'required',
+            'status_promo' => 'required'
         ]);
 
         if($validate->fails())

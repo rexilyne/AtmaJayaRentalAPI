@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\PemilikMobil;
+use Illuminate\Validation\Rule;
 
 class PemilikMobilController extends Controller
 {
@@ -45,7 +46,11 @@ class PemilikMobilController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            'status_pemilik' => 'required',
+            'nama' => 'required',
+            'no_ktp' => 'required',
+            'alamat' => 'required',
+            'no_telp' => 'required|unique:pemilik_mobil'
         ]);
 
         if($validate->fails())
@@ -94,7 +99,11 @@ class PemilikMobilController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'status_pemilik' => 'required',
+            'nama' => 'required',
+            'no_ktp' => 'required',
+            'alamat' => 'required',
+            'no_telp' => ['required', Rule::unique('pemilik_mobil')->ignore($pemilikMobil)]
         ]);
 
         if($validate->fails())

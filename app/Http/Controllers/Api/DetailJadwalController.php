@@ -45,7 +45,8 @@ class DetailJadwalController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            'id_jadwal' => 'required',
+            'id_pegawai' => 'required'
         ]);
 
         if($validate->fails())
@@ -94,7 +95,8 @@ class DetailJadwalController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'id_jadwal' => 'required',
+            'id_pegawai' => 'required'
         ]);
 
         if($validate->fails())

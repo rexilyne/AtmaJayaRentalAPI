@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Mobil;
+use Illuminate\Validation\Rule;
 
 class MobilController extends Controller
 {
@@ -45,7 +46,24 @@ class MobilController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            'id_pemilik_mobil' => 'required',
+            'nama_mobil' => 'required',
+            'tipe_mobil' => 'required',
+            'jenis_transmisi' => 'required',
+            'jenis_bahan_bakar' => 'required',
+            'warna_mobil' => 'required',
+            'volume_bagasi' => 'required',
+            'fasilitas' => 'required',
+            'kapasitas_penumpang' => 'required|numeric',
+            'plat_nomor' => 'required',
+            'nomor_stnk' => 'required',
+            'kategori_aset' => 'required',
+            'harga_sewa' =>'required|numeric',
+            'status_sewa' => 'required',
+            'tanggal_terakhir_kali_servis' => 'required|date',
+            'periode_kontrak_mulai' => 'required|date',
+            'periode_kontrak_selesai' => 'required|date',
+            'url_foto' => 'required'
         ]);
 
         if($validate->fails())
@@ -94,7 +112,24 @@ class MobilController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'id_pemilik_mobil' => 'required',
+            'nama_mobil' => 'required',
+            'tipe_mobil' => 'required',
+            'jenis_transmisi' => 'required',
+            'jenis_bahan_bakar' => 'required',
+            'warna_mobil' => 'required',
+            'volume_bagasi' => 'required',
+            'fasilitas' => 'required',
+            'kapasitas_penumpang' => 'required|numeric',
+            'plat_nomor' => 'required',
+            'nomor_stnk' => 'required',
+            'kategori_aset' => 'required',
+            'harga_sewa' =>'required|numeric',
+            'status_sewa' => 'required',
+            'tanggal_terakhir_kali_servis' => 'required|date',
+            'periode_kontrak_mulai' => 'required|date',
+            'periode_kontrak_selesai' => 'required|date',
+            'url_foto' => 'required'
         ]);
 
         if($validate->fails())

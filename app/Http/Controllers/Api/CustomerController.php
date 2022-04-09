@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -15,7 +16,7 @@ class CustomerController extends Controller
 
         if(count($customers) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $customers
             ], 200);
 
@@ -45,7 +46,17 @@ class CustomerController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-            ''
+            'id_customer' => 'required|unique:customer',
+            'status_akun' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required',
+            'email' => 'required|email:rfc,dns|unique:customer',
+            'no_telp' => 'required|unique:customer',
+            'password' => 'required',
+            'url_sim' => 'required',
+            'url_kartu_identitas' => 'required'
         ]);
 
         if($validate->fails())
@@ -94,7 +105,17 @@ class CustomerController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'id_customer' => ['required', Rule::unique('customer')->ignore($customer)],
+            'status_akun' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required',
+            'email' => ['required', 'email:rfc,dns', Rule::unique('customer')->ignore($customer)],
+            'no_telp' => ['required', Rule::unique('customer')->ignore($customer)],
+            'password' => 'required',
+            'url_sim' => 'required',
+            'url_kartu_identitas' => 'required'
         ]);
 
         if($validate->fails())

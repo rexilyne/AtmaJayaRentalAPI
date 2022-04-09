@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Pegawai;
+use Illuminate\Validation\Rule;
 
 class PegawaiController extends Controller
 {
@@ -45,7 +46,16 @@ class PegawaiController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            'status_akun' => 'required',
+            'id_role' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'email' => 'required|email:rfc,dns|unique:pegawai',
+            'no_telp' => 'required|unique:pegawai',
+            'password' => 'required',
+            'url_foto' => 'required'
         ]);
 
         if($validate->fails())
@@ -94,7 +104,16 @@ class PegawaiController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'status_akun' => 'required',
+            'id_role' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'email' => ['required', 'email:rfc,dns' , Rule::unique('pegawai')->ignore($pegawai)],
+            'no_telp' => ['required', Rule::unique('pegawai')->ignore($pegawai)],
+            'password' => 'required',
+            'url_foto' => 'required'
         ]);
 
         if($validate->fails())

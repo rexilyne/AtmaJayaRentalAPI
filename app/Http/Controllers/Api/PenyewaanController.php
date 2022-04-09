@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Penyewaan;
+use Illuminate\Validation\Rule;
 
 class PenyewaanController extends Controller
 {
@@ -45,7 +46,29 @@ class PenyewaanController extends Controller
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-
+            'id_penyewaan' => 'required|unique:penyewaan',
+            'id_pegawai' => 'required',
+            'id_driver' => 'required',
+            'id_customer' => 'required',
+            'id_mobil' => 'required',
+            'id_promo' => 'required',
+            'jenis_penyewaan' => 'required',
+            'tanggal_penyewaan' => 'required|date',
+            'tanggal_mulai_sewa' => 'require|date',
+            'tanggal_selesai' => 'required|date',
+            'tanggal_pengembalian' => 'required|date',
+            'total_harga_sewa' => 'required|numeric',
+            'status_penyewaan' => 'required',
+            'tanggal_pembayaran' => 'required|date',
+            'metode_pembayaran' => 'required',
+            'total_diskon' => 'required|numeric',
+            'total_denda' => 'required|numeric',
+            'total_harga_bayar' => 'required|numeric',
+            'url_bukti_pembayaran' => 'required',
+            'rating_driver' => 'required|numeric',
+            'performa_driver' => 'required',
+            'rating_perusahaan' => 'required|numeric',
+            'performa_perusahaan' => 'required'
         ]);
 
         if($validate->fails())
@@ -94,7 +117,29 @@ class PenyewaanController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-
+            'id_penyewaan' => ['required', Rule::unique('penyewaan')->ignore($penyewaan)],
+            'id_pegawai' => 'required',
+            'id_driver' => 'required',
+            'id_customer' => 'required',
+            'id_mobil' => 'required',
+            'id_promo' => 'required',
+            'jenis_penyewaan' => 'required',
+            'tanggal_penyewaan' => 'required|date',
+            'tanggal_mulai_sewa' => 'require|date',
+            'tanggal_selesai' => 'required|date',
+            'tanggal_pengembalian' => 'required|date',
+            'total_harga_sewa' => 'required|numeric',
+            'status_penyewaan' => 'required',
+            'tanggal_pembayaran' => 'required|date',
+            'metode_pembayaran' => 'required',
+            'total_diskon' => 'required|numeric',
+            'total_denda' => 'required|numeric',
+            'total_harga_bayar' => 'required|numeric',
+            'url_bukti_pembayaran' => 'required',
+            'rating_driver' => 'required|numeric',
+            'performa_driver' => 'required',
+            'rating_perusahaan' => 'required|numeric',
+            'performa_perusahaan' => 'required'
         ]);
 
         if($validate->fails())
