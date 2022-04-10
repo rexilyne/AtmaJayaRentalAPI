@@ -28,7 +28,7 @@ class CustomerController extends Controller
     }
 
     public function show($id) {
-        $customer = Customer::find($id);
+        $customer = Customer::where('id_customer', $id)->get();
 
         if(!is_null($customer)) {
             return response([
@@ -71,7 +71,7 @@ class CustomerController extends Controller
     }
 
     public function destroy($id) {
-        $customer = Customer::find($id);
+        $customer = Customer::where('id_customer', $id)->get();
 
         if(is_null($customer)) {
             return response([
@@ -94,7 +94,7 @@ class CustomerController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $customer = Customer:: find($id);
+        $customer = Customer::where('id_customer', $id)->get();
 
         if(is_null($customer)) {
             return response([

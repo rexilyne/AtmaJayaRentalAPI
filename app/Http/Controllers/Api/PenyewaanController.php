@@ -27,8 +27,40 @@ class PenyewaanController extends Controller
         }
     }
 
-    public function show($id) {
-        $penyewaan = Penyewaan::find($id);
+    public function showByIdPenyewaan($id) {
+        $penyewaan = Penyewaan::where('id_penyewaan', $id)->get();
+
+        if(!is_null($penyewaan)) {
+            return response([
+                'message' => 'Retrieve Penyewaan Success',
+                'data' => $penyewaan
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Penyewaan Not Found',
+            'data' => null
+        ], 404);
+    }
+
+    public function showByIdCustomer($id) {
+        $penyewaan = Penyewaan::where('id_customer', $id)->get();
+
+        if(!is_null($penyewaan)) {
+            return response([
+                'message' => 'Retrieve Penyewaan Success',
+                'data' => $penyewaan
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Penyewaan Not Found',
+            'data' => null
+        ], 404);
+    }
+
+    public function showByIdDriver($id) {
+        $penyewaan = Penyewaan::where('id_driver', $id)->get();
 
         if(!is_null($penyewaan)) {
             return response([
@@ -83,7 +115,7 @@ class PenyewaanController extends Controller
     }
 
     public function destroy($id) {
-        $penyewaan = Penyewaan::find($id);
+        $penyewaan = Penyewaan::where('id_penyewaan', $id)->get();
 
         if(is_null($penyewaan)) {
             return response([
@@ -106,7 +138,7 @@ class PenyewaanController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $penyewaan = Penyewaan:: find($id);
+        $penyewaan = Penyewaan::where('id_penyewaan', $id)->get();
 
         if(is_null($penyewaan)) {
             return response([

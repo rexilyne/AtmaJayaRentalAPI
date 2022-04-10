@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DetailJadwalController;
+use App\Http\Controllers\Api\DriverController;
 use App\Http\Controllers\Api\JadwalController;
 use App\Http\Controllers\Api\MobilController;
 use App\Http\Controllers\Api\PegawaiController;
@@ -36,10 +37,21 @@ Route::controller(CustomerController::class)->group(function () {
 
 Route::controller(DetailJadwalController::class)->group(function () {
     Route::get('/detailjadwal', 'index');
-    Route::get('/detailjadwal/{id}', 'show');
+    Route::get('/detailjadwal/get/idpegawai/{id}', 'showByIdPegawai');
+    Route::get('/detailjadwal/get/idjadwal/{id}', 'showByIdJadwal');
     Route::post('/detailjadwal', 'store');
-    Route::put('/detailjadwal/{id}', 'update');
-    Route::delete('/detailjadwal/{id}', 'destroy');
+    Route::put('/detailjadwal/update/idpegawai/{id}', 'updateByIdPegawai');
+    Route::put('/detailjadwal/update/idjadwal/{id}', 'updateByIdJadwal');
+    Route::delete('/detailjadwal/delete/idpegawai/{id}', 'destroyByIdPegawai');
+    Route::delete('/detailjadwal/delete/idjadwal/{id}', 'destroyByIdJadwal');
+});
+
+Route::controller(DriverController::class)->group(function () {
+    Route::get('/driver', 'index');
+    Route::get('/driver/{id}', 'show');
+    Route::post('/driver', 'store');
+    Route::put('/driver/{id}', 'update');
+    Route::delete('/driver/{id}', 'destroy');
 });
 
 Route::controller(JadwalController::class)->group(function () {
@@ -76,8 +88,10 @@ Route::controller(PemilikMobilController::class)->group(function () {
 
 Route::controller(PenyewaanController::class)->group(function () {
     Route::get('/penyewaan', 'index');
-    Route::get('/penyewaan/{id}', 'show');
-    Route::post('/peneywaan', 'store');
+    Route::get('/penyewaan/get/idpenyewaan/{id}', 'showByIdPenyewaan');
+    Route::get('/penyewaan/get/idcustomer/{id}', 'showByIdCustomer');
+    Route::get('/penyewaan/get/iddriver/{id}', 'showByIdDriver');
+    Route::post('/penyewaan', 'store');
     Route::put('/penyewaan/{id}', 'update');
     Route::delete('/penyewaan/{id}', 'destroy');
 });
