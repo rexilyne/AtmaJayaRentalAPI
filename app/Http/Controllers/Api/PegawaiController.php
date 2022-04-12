@@ -16,7 +16,7 @@ class PegawaiController extends Controller
 
         if(count($pegawais) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $pegawais
             ], 200);
 
@@ -78,8 +78,10 @@ class PegawaiController extends Controller
                 'data' => null
             ], 404);
         }
+        
+        $pegawai->status_akun = 'Tidak Aktif';
 
-        if($pegawai->delete()) {
+        if($pegawai->save()) {
             return response([
                 'message' => 'Delete Pegawai Success',
                 'data' => $pegawai
@@ -93,7 +95,7 @@ class PegawaiController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $pegawai = Pegawai:: find($id);
+        $pegawai = Pegawai::find($id);
 
         if(is_null($pegawai)) {
             return response([

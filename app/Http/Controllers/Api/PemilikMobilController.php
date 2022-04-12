@@ -16,7 +16,7 @@ class PemilikMobilController extends Controller
 
         if(count($pemilikMobils) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $pemilikMobils
             ], 200);
 
@@ -74,7 +74,9 @@ class PemilikMobilController extends Controller
             ], 404);
         }
 
-        if($pemilikMobil->delete()) {
+        $pemilikMobil->status_akun = 'Tidak Aktif';
+
+        if($pemilikMobil->save()) {
             return response([
                 'message' => 'Delete Pemilik Mobil Success',
                 'data' => $pemilikMobil
@@ -88,7 +90,7 @@ class PemilikMobilController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $pemilikMobil = PemilikMobil:: find($id);
+        $pemilikMobil = PemilikMobil::find($id);
 
         if(is_null($pemilikMobil)) {
             return response([

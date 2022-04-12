@@ -15,7 +15,7 @@ class DetailJadwalController extends Controller
 
         if(count($detailJadwals) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $detailJadwals
             ], 200);
 
@@ -190,5 +190,21 @@ class DetailJadwalController extends Controller
             'message' => 'Update Detail Jadwal Failed',
             'data' => null
         ], 400);
+    }
+
+    public function cekSyaratPenjadwalan(Request $request) {
+        $cekData = $request->all();
+
+        $cekJumlahShift = DetailJadwal::where('id_pegawai', $cekData['id_pegawai'])->count();
+        
+        if($cekJumlahShift == 6) {
+            return response([
+                'message' => '1 Pegawai maksimal 6 shift',
+            ], 400);
+        }
+
+        return response([
+            'message' => 'OK'
+        ], 200);
     }
 }

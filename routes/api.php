@@ -44,6 +44,7 @@ Route::controller(DetailJadwalController::class)->group(function () {
     Route::put('/detailjadwal/update/idjadwal/{id}', 'updateByIdJadwal');
     Route::delete('/detailjadwal/delete/idpegawai/{id}', 'destroyByIdPegawai');
     Route::delete('/detailjadwal/delete/idjadwal/{id}', 'destroyByIdJadwal');
+    Route::get('/detailjadwal/ceksyaratpenjadwalan', 'cekSyaratPenjadwalan');
 });
 
 Route::controller(DriverController::class)->group(function () {
@@ -52,6 +53,7 @@ Route::controller(DriverController::class)->group(function () {
     Route::post('/driver', 'store');
     Route::put('/driver/{id}', 'update');
     Route::delete('/driver/{id}', 'destroy');
+    Route::get('/driver/showavailable', 'showAvailable');
 });
 
 Route::controller(JadwalController::class)->group(function () {
@@ -68,6 +70,9 @@ Route::controller(MobilController::class)->group(function () {
     Route::post('/mobil', 'store');
     Route::put('/mobil/{id}', 'update');
     Route::delete('/mobil/{id}', 'destroy');
+    Route::get('/mobil/showavailable', 'showAvailabe');
+    Route::get('/mobil/showkontrakakanhabis', 'showKontrakAkanHabis');
+    Route::put('/mobil/updateperiodekontrak/{id}', 'updatePeriodeKontrak');
 });
 
 Route::controller(PegawaiController::class)->group(function () {
@@ -102,4 +107,5 @@ Route::controller(PromoController::class)->group(function () {
     Route::post('/promo', 'store');
     Route::put('/promo/{id}', 'update');
     Route::delete('/promo/{id}', 'destroy');
+    Route::get('/promo/showactive', 'showActive');
 });

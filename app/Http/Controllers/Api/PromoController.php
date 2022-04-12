@@ -16,7 +16,7 @@ class PromoController extends Controller
 
         if(count($promos) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $promos
             ], 200);
 
@@ -74,7 +74,9 @@ class PromoController extends Controller
             ], 404);
         }
 
-        if($promo->delete()) {
+        $promo->status_promo = 'Tidak Aktif';
+
+        if($promo->save()) {
             return response([
                 'message' => 'Delete Promo Success',
                 'data' => $promo
@@ -88,7 +90,7 @@ class PromoController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $promo = Promo:: find($id);
+        $promo = Promo::find($id);
 
         if(is_null($promo)) {
             return response([
@@ -126,5 +128,21 @@ class PromoController extends Controller
             'message' => 'Update Promo Failed',
             'data' => null
         ], 400);
+    }
+
+    public function showActive() {
+        $promo = Promo::where('status_promo', 'Aktif')->get();
+
+        if(!is_null($promo)) {
+            return response([
+                'message' => 'Retrieve Promo Success',
+                'data' => $promo
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Promo Not Found',
+            'data' => null
+        ], 404);
     }
 }

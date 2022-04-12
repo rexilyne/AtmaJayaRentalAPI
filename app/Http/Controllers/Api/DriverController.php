@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Driver;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class DriverController extends Controller
 {
@@ -45,6 +46,18 @@ class DriverController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
+
+        $drivRegDate = date('ymd');
+        $lastDrivId = DB::table('customer')->latest()->first();
+        if(is_null($lastDrivId)) {
+            $lastDrivId = 0;
+        }
+        $drivId = $lastDrivId + 1;
+        $storeData['id_driver'] =  'DRV'.$drivRegDate.'-'.$drivId;
+
+        $storeData['status_akun'] = 'Aktif';
+        $storeData['password'] = bcrypt($storeData['tanggal_lahir']);
+
         $validate = Validator::make($storeData, [
             'id_driver' => 'required|unique:driver',
             'status_akun' => 'required',
@@ -86,7 +99,9 @@ class DriverController extends Controller
             ], 404);
         }
 
-        if($driver->delete()) {
+        $driver->status_akun = 'Tidak Aktif';
+
+        if($driver->save()) {
             return response([
                 'message' => 'Delete Driver Success',
                 'data' => $driver
@@ -160,5 +175,21 @@ class DriverController extends Controller
             'message' => 'Update Driver Failed',
             'data' => null
         ], 400);
+    }
+
+    public function showAvailable() {
+        $driver = Driver::where('status_driver', 'Available')->get();
+
+        if(!is_null($driver)) {
+            return response([
+                'message' => 'Retrieve Driver Success',
+                'data' => $driver
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Driver Not Found',
+            'data' => null
+        ], 404);
     }
 }

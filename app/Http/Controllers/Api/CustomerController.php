@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -45,6 +46,18 @@ class CustomerController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
+
+        $custRegDate = date('ymd');
+        $lastCustId = DB::table('customer')->latest()->first();
+        if(is_null($lastCustId)) {
+            $lastCustId = 0;
+        }
+        $custId = $lastCustId + 1;
+        $storeData['id_customer'] =  'CUS'.$custRegDate.'-'.$custId;
+
+        $storeData['status_akun'] = 'Aktif';
+        $storeData['password'] = bcrypt($storeData['tanggal_lahir']);
+
         $validate = Validator::make($storeData, [
             'id_customer' => 'required|unique:customer',
             'status_akun' => 'required',
@@ -80,7 +93,9 @@ class CustomerController extends Controller
             ], 404);
         }
 
-        if($customer->delete()) {
+        $customer->status_akun = 'Tidak Aktif';
+
+        if($customer->save()) {
             return response([
                 'message' => 'Delete Customer Success',
                 'data' => $customer

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Penyewaan;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class PenyewaanController extends Controller
 {
@@ -16,7 +17,7 @@ class PenyewaanController extends Controller
 
         if(count($penyewaans) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $penyewaans
             ], 200);
 
@@ -77,6 +78,22 @@ class PenyewaanController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
+
+        $orderDate = date('ymd');
+        $idJenisPenyewaan = 0;
+        if($storeData['jenis_penyewaan'] === 'Penyewaan Mobil + Driver') {
+            $idJenisPenyewaan = 1;
+        } else if($storeData['jenis_penyewaan'] === 'Penyewaan Mobil') {
+            $idJenisPenyewaan = 0;
+        }
+        $lastSewaId = DB::table('penyewaan')->latest()->first();
+        if(is_null($lastSewaId)) {
+            $lastSewaId = 0;
+        }
+        $sewaId = $lastSewaId + 1;
+        $storeData['id_penyewaan'] = 'TRN'.$orderDate.'0'.$idJenisPenyewaan.'-'.$sewaId;
+
+
         $validate = Validator::make($storeData, [
             'id_penyewaan' => 'required|unique:penyewaan',
             'id_pegawai' => 'required',

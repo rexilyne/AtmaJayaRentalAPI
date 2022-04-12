@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Mobil;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class MobilController extends Controller
 {
@@ -16,7 +17,7 @@ class MobilController extends Controller
 
         if(count($mobils) > 0) {
             return response([
-                'message' => 'Retreive All Success',
+                'message' => 'Retrieve All Success',
                 'data' => $mobils
             ], 200);
 
@@ -101,7 +102,7 @@ class MobilController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $mobil = Mobil:: find($id);
+        $mobil = Mobil::find($id);
 
         if(is_null($mobil)) {
             return response([
@@ -153,6 +154,73 @@ class MobilController extends Controller
         $mobil->periode_kontrak_mulai = $updateData['periode_kontrak_mulai'];
         $mobil->periode_kontrak_akhir = $updateData['periode_kontrak_akhir'];
         $mobil->url_foto = $updateData['url_foto'];
+
+        if($mobil->save()) {
+            return response([
+                'message' => 'Update Mobil Success',
+                'data' => $mobil
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Update Mobil Failed',
+            'data' => null
+        ], 400);
+    }
+
+    public function showAvailable() {
+        $mobil = Mobil::where('status_sewa', 'Available')->get();
+
+        if(!is_null($mobil)) {
+            return response([
+                'message' => 'Retrieve Mobil Success',
+                'data' => $mobil
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Mobil Not Found',
+            'data' => null
+        ], 404);
+    }
+
+    public function showKontrakAkanHabis() {
+        $mobil = DB::table('mobil')->where('kategori_aset', 'Aset Mitra')->whereRaw('DATEDIFF(now(), periode_kontrak_akhir) < ?', [30])->get();
+
+        if(!is_null($mobil)) {
+            return response([
+                'message' => 'Retrieve Mobil Success',
+                'data' => $mobil
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Mobil Not Found',
+            'data' => null
+        ], 404);
+    }
+
+    public function updatePeriodeKontrak(Request $request, $id) {
+        $mobil = Mobil::find($id);
+
+        if(is_null($mobil)) {
+            return response([
+                'message' => 'Mobil Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $updateData = $request->all();
+        $validate = Validator::make($updateData, [
+            'periode_kontrak_mulai' => 'required|date',
+            'periode_kontrak_selesai' => 'required|date',
+        ]);
+
+        if($validate->fails())
+            return response(['message' => $validate->errors()], 400);
+
+        $mobil->periode_kontrak_mulai = $updateData['periode_kontrak_mulai'];
+        $mobil->periode_kontrak_akhir = $updateData['periode_kontrak_akhir'];
 
         if($mobil->save()) {
             return response([
