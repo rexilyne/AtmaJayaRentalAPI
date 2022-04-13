@@ -11,6 +11,9 @@ use App\Http\Controllers\Api\PegawaiController;
 use App\Http\Controllers\Api\PemilikMobilController;
 use App\Http\Controllers\Api\PenyewaanController;
 use App\Http\Controllers\Api\PromoController;
+use App\Http\Controllers\Api\CustomerAuthControlller;
+use App\Http\Controllers\Api\DriverAuthController;
+use App\Http\Controllers\Api\PegawaiAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +30,22 @@ use App\Http\Controllers\Api\PromoController;
 //     return $request->user();
 // });
 
-Route::controller(CustomerController::class)->group(function () {
+Route::controller(CustomerAuthControlller::class)->group(function() {
+    Route::post('/register/customer', 'register');
+    Route::post('/login/customer', 'login');
+});
+
+Route::controller(DriverAuthControlller::class)->group(function() {
+    Route::post('/register/driver', 'register');
+    Route::post('/login/driver', 'login');
+});
+
+Route::controller(PegawaiAuthControlller::class)->group(function() {
+    Route::post('/register/pegawai', 'register');
+    Route::post('/login/pegawai', 'login');
+});
+
+Route::controller(CustomerController::class)->middleware('auth:customer_api')->group(function () {
     Route::get('/customer', 'index');
     Route::get('/customer/show/{id}', 'show');
     Route::post('/customer/store', 'store');
@@ -47,7 +65,7 @@ Route::controller(DetailJadwalController::class)->group(function () {
     Route::get('/detailjadwal/ceksyaratpenjadwalan', 'cekSyaratPenjadwalan');
 });
 
-Route::controller(DriverController::class)->group(function () {
+Route::controller(DriverController::class)->middleware('auth:driver_api')->group(function () {
     Route::get('/driver', 'index');
     Route::get('/driver/show/{id}', 'show');
     Route::post('/driver/store', 'store');
@@ -75,7 +93,7 @@ Route::controller(MobilController::class)->group(function () {
     Route::put('/mobil/updateperiodekontrak/{id}', 'updatePeriodeKontrak');
 });
 
-Route::controller(PegawaiController::class)->group(function () {
+Route::controller(PegawaiController::class)->middleware('auth:pegawai_api')->group(function () {
     Route::get('/pegawai', 'index');
     Route::get('/pegawai/show/{id}', 'show');
     Route::post('/pegawai/store', 'store');
@@ -102,7 +120,7 @@ Route::controller(PenyewaanController::class)->group(function () {
 });
 
 Route::controller(PromoController::class)->group(function () {
-    Route::get('/promo', 'index');
+    Route::get('/promo', 'index')->middleware(['auth:driver_api']);
     Route::get('/promo/show/{id}', 'show');
     Route::post('/promo/store', 'store');
     Route::put('/promo/update/{id}', 'update');
