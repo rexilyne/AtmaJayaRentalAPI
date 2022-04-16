@@ -94,4 +94,21 @@ class DriverAuthController extends Controller
             'access_token' => $token
         ]);
     }
+
+    public function logout(Request $request) {
+        if($request->user()) {
+            /** @var \App\Models\Customer $user **/
+            $user = $request->user();
+            
+            $user->token()->revoke();
+
+            return response([
+                'message' => 'Successfully logged out'
+            ]);
+        }
+
+        return response([
+            'message' => 'Logout failed'
+        ]);
+    }
 }

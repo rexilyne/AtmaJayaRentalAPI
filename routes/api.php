@@ -36,16 +36,19 @@ Route::post('/storeImage', [ImageController::class, 'storeImage']);
 Route::controller(CustomerAuthController::class)->group(function() {
     Route::post('/register/customer', 'register');
     Route::post('/login/customer', 'login');
+    Route::post('/logout/customer', 'logout')->middleware('auth:customer_api');
 });
 
 Route::controller(DriverAuthController::class)->group(function() {
     Route::post('/register/driver', 'register');
     Route::post('/login/driver', 'login');
+    Route::post('/logout/driver', 'logout')->middleware('auth:driver_api');
 });
 
 Route::controller(PegawaiAuthController::class)->group(function() {
     Route::post('/register/pegawai', 'register');
     Route::post('/login/pegawai', 'login');
+    Route::post('/logout/pegawai', 'logout')->middleware('auth:pegawai_api');
 });
 
 //TODO : tambahin policy
