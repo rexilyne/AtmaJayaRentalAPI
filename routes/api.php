@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PenyewaanController;
 use App\Http\Controllers\Api\PromoController;
 use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\DriverAuthController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PegawaiAuthController;
 
 /*
@@ -29,6 +30,8 @@ use App\Http\Controllers\Api\PegawaiAuthController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::post('/storeImage', [ImageController::class, 'storeImage']);
 
 Route::controller(CustomerAuthController::class)->group(function() {
     Route::post('/register/customer', 'register');
