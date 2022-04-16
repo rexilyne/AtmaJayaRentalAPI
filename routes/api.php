@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\PegawaiController;
 use App\Http\Controllers\Api\PemilikMobilController;
 use App\Http\Controllers\Api\PenyewaanController;
 use App\Http\Controllers\Api\PromoController;
-use App\Http\Controllers\Api\CustomerAuthControlller;
+use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\DriverAuthController;
 use App\Http\Controllers\Api\PegawaiAuthController;
 
@@ -30,7 +30,7 @@ use App\Http\Controllers\Api\PegawaiAuthController;
 //     return $request->user();
 // });
 
-Route::controller(CustomerAuthControlller::class)->group(function() {
+Route::controller(CustomerAuthController::class)->group(function() {
     Route::post('/register/customer', 'register');
     Route::post('/login/customer', 'login');
 });
