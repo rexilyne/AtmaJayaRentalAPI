@@ -20,12 +20,12 @@ class CustomerController extends Controller
                 'message' => 'Retrieve All Success',
                 'data' => $customers
             ], 200);
-
-            return response([
-                'message' => 'Empty',
-                'data' => null
-            ], 400);
         }
+
+        return response([
+            'message' => 'Empty',
+            'data' => null
+        ], 400);
     }
 
     public function show($id) {

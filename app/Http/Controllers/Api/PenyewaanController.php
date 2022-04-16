@@ -20,12 +20,12 @@ class PenyewaanController extends Controller
                 'message' => 'Retrieve All Success',
                 'data' => $penyewaans
             ], 200);
-
-            return response([
-                'message' => 'Empty',
-                'data' => null
-            ], 400);
         }
+
+        return response([
+            'message' => 'Empty',
+            'data' => null
+        ], 400);
     }
 
     public function showByIdPenyewaan($id) {

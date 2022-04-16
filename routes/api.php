@@ -35,16 +35,17 @@ Route::controller(CustomerAuthControlller::class)->group(function() {
     Route::post('/login/customer', 'login');
 });
 
-Route::controller(DriverAuthControlller::class)->group(function() {
+Route::controller(DriverAuthController::class)->group(function() {
     Route::post('/register/driver', 'register');
     Route::post('/login/driver', 'login');
 });
 
-Route::controller(PegawaiAuthControlller::class)->group(function() {
+Route::controller(PegawaiAuthController::class)->group(function() {
     Route::post('/register/pegawai', 'register');
     Route::post('/login/pegawai', 'login');
 });
 
+//TODO : tambahin policy
 Route::controller(CustomerController::class)->middleware('auth:customer_api')->group(function () {
     Route::get('/customer', 'index');
     Route::get('/customer/show/{id}', 'show');
@@ -53,18 +54,25 @@ Route::controller(CustomerController::class)->middleware('auth:customer_api')->g
     Route::delete('/customer/delete/{id}', 'destroy');
 });
 
-Route::controller(DetailJadwalController::class)->group(function () {
+Route::controller(DetailJadwalController::class)->middleware('auth:pegawai_api')->group(function () {
     Route::get('/detailjadwal', 'index');
     Route::get('/detailjadwal/get/idpegawai/{id}', 'showByIdPegawai');
     Route::get('/detailjadwal/get/idjadwal/{id}', 'showByIdJadwal');
-    Route::post('/detailjadwal/store', 'store');
-    Route::put('/detailjadwal/update/idpegawai/{id}', 'updateByIdPegawai');
-    Route::put('/detailjadwal/update/idjadwal/{id}', 'updateByIdJadwal');
-    Route::delete('/detailjadwal/delete/idpegawai/{id}', 'destroyByIdPegawai');
-    Route::delete('/detailjadwal/delete/idjadwal/{id}', 'destroyByIdJadwal');
-    Route::get('/detailjadwal/ceksyaratpenjadwalan', 'cekSyaratPenjadwalan');
 });
 
+Route::controller(DetailJadwalController::class)->middleware(['auth:pegawai_api', 'role.manager'])->group(function () {
+    Route::get('/keloladata/detailjadwal', 'index');
+    Route::get('/keloladata/detailjadwal/get/idpegawai/{id}', 'showByIdPegawai');
+    Route::get('/keloladata/detailjadwal/get/idjadwal/{id}', 'showByIdJadwal');
+    Route::post('/keloladata/detailjadwal/store', 'store');
+    Route::put('/keloladata/detailjadwal/update/idpegawai/{id}', 'updateByIdPegawai');
+    Route::put('/keloladata/detailjadwal/update/idjadwal/{id}', 'updateByIdJadwal');
+    Route::delete('/keloladata/detailjadwal/delete/idpegawai/{id}', 'destroyByIdPegawai');
+    Route::delete('/keloladata/detailjadwal/delete/idjadwal/{id}', 'destroyByIdJadwal');
+    Route::get('/keloladata/detailjadwal/ceksyaratpenjadwalan', 'cekSyaratPenjadwalan');
+});
+
+//TODO : tambahin policy
 Route::controller(DriverController::class)->middleware('auth:driver_api')->group(function () {
     Route::get('/driver', 'index');
     Route::get('/driver/show/{id}', 'show');
@@ -74,25 +82,46 @@ Route::controller(DriverController::class)->middleware('auth:driver_api')->group
     Route::get('/driver/showavailable', 'showAvailable');
 });
 
-Route::controller(JadwalController::class)->group(function () {
+Route::controller(DriverController::class)->middleware('auth:pegawai_api')->group(function () {
+    Route::get('/keloladata/driver', 'index');
+    Route::get('/keloladata/driver/show/{id}', 'show');
+    Route::post('/keloladata/driver/store', 'store');
+    Route::put('/keloladata/driver/update/{id}', 'update');
+    Route::delete('/keloladata/driver/delete/{id}', 'destroy');
+    Route::get('/keloladata/driver/showavailable', 'showAvailable');
+});
+
+Route::controller(JadwalController::class)->middleware('auth:pegawai_api')->group(function () {
     Route::get('/jadwal', 'index');
     Route::get('/jadwal/show/{id}', 'show');
-    Route::post('/jadwal/store', 'store');
-    Route::put('/jadwal/update/{id}', 'update');
-    Route::delete('/jadwal/delete/{id}', 'destroy');
+});
+
+Route::controller(JadwalController::class)->middleware(['auth:pegawai_api', 'role.manager'])->group(function () {
+    Route::get('/keloladata/jadwal', 'index');
+    Route::get('/keloladata/jadwal/show/{id}', 'show');
+    Route::post('/keloladata/jadwal/store', 'store');
+    Route::put('/keloladata/jadwal/update/{id}', 'update');
+    Route::delete('/keloladata/jadwal/delete/{id}', 'destroy');
 });
 
 Route::controller(MobilController::class)->group(function () {
     Route::get('/mobil', 'index');
     Route::get('/mobil/show/{id}', 'show');
-    Route::post('/mobil/store', 'store');
-    Route::put('/mobil/update/{id}', 'update');
-    Route::delete('/mobil/delete/{id}', 'destroy');
-    Route::get('/mobil/showavailable', 'showAvailabe');
-    Route::get('/mobil/showkontrakakanhabis', 'showKontrakAkanHabis');
-    Route::put('/mobil/updateperiodekontrak/{id}', 'updatePeriodeKontrak');
+    Route::get('/mobil/showavailable', 'showAvailable');
 });
 
+Route::controller(MobilController::class)->middleware(['auth:pegawai_api', 'role.administrasi'])->group(function () {
+    Route::get('/keloladata/mobil', 'index');
+    Route::get('/keloladata/mobil/show/{id}', 'show');
+    Route::post('/keloladata/mobil/store', 'store');
+    Route::put('/keloladata/mobil/update/{id}', 'update');
+    Route::delete('/keloladata/mobil/delete/{id}', 'destroy');
+    Route::get('/keloladata/mobil/showavailable', 'showAvailable');
+    Route::get('/keloladata/mobil/showkontrakakanhabis', 'showKontrakAkanHabis');
+    Route::put('/keloladata/mobil/updateperiodekontrak/{id}', 'updatePeriodeKontrak');
+});
+
+//TODO : tambahin policy
 Route::controller(PegawaiController::class)->middleware('auth:pegawai_api')->group(function () {
     Route::get('/pegawai', 'index');
     Route::get('/pegawai/show/{id}', 'show');
@@ -101,15 +130,23 @@ Route::controller(PegawaiController::class)->middleware('auth:pegawai_api')->gro
     Route::delete('/pegawai/delete/{id}', 'destroy');
 });
 
-Route::controller(PemilikMobilController::class)->group(function () {
-    Route::get('/pemilikmobil', 'index');
-    Route::get('/pemilikmobil/show/{id}', 'show');
-    Route::post('/pemilikmobil/store', 'store');
-    Route::put('/pemilikmobil/update/{id}', 'update');
-    Route::delete('/pemilikmobil/delete/{id}', 'destroy');
+Route::controller(PegawaiController::class)->middleware(['auth:pegawai_api', 'role.administrasi'])->group(function () {
+    Route::get('/keloladata/pegawai', 'index');
+    Route::get('/keloladata/pegawai/show/{id}', 'show');
+    Route::post('/keloladata/pegawai/store', 'store');
+    Route::put('/keloladata/pegawai/update/{id}', 'update');
+    Route::delete('/keloladata/pegawai/delete/{id}', 'destroy');
 });
 
-Route::controller(PenyewaanController::class)->group(function () {
+Route::controller(PemilikMobilController::class)->middleware(['auth:pegawai_api', 'role.administrasi'])->group(function () {
+    Route::get('/keloladata/pemilikmobil', 'index');
+    Route::get('/keloladata/pemilikmobil/show/{id}', 'show');
+    Route::post('/keloladata/pemilikmobil/store', 'store');
+    Route::put('/keloladata/pemilikmobil/update/{id}', 'update');
+    Route::delete('/keloladata/pemilikmobil/delete/{id}', 'destroy');
+});
+
+Route::controller(PenyewaanController::class)->group(function () { //belum ada middleware
     Route::get('/penyewaan', 'index');
     Route::get('/penyewaan/show/idpenyewaan/{id}', 'showByIdPenyewaan');
     Route::get('/penyewaan/show/idcustomer/{id}', 'showByIdCustomer');
@@ -120,10 +157,16 @@ Route::controller(PenyewaanController::class)->group(function () {
 });
 
 Route::controller(PromoController::class)->group(function () {
-    Route::get('/promo', 'index')->middleware(['auth:driver_api']);
+    Route::get('/promo', 'index');
     Route::get('/promo/show/{id}', 'show');
-    Route::post('/promo/store', 'store');
-    Route::put('/promo/update/{id}', 'update');
-    Route::delete('/promo/delete/{id}', 'destroy');
     Route::get('/promo/showactive', 'showActive');
+});
+
+Route::controller(PromoController::class)->middleware(['auth:pegawai_api', 'role.manager'])->group(function () {
+    Route::get('/keloladata/promo', 'index');
+    Route::get('/keloladata/promo/show/{id}', 'show');
+    Route::post('/keloladata/promo/store', 'store');
+    Route::put('/keloladata/promo/update/{id}', 'update');
+    Route::delete('/keloladata/promo/delete/{id}', 'destroy');
+    Route::get('/keloladata/promo/showactive', 'showActive');
 });

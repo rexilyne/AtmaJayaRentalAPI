@@ -18,12 +18,12 @@ class DetailJadwalController extends Controller
                 'message' => 'Retrieve All Success',
                 'data' => $detailJadwals
             ], 200);
-
-            return response([
-                'message' => 'Empty',
-                'data' => null
-            ], 400);
         }
+
+        return response([
+            'message' => 'Empty',
+            'data' => null
+        ], 400);
     }
 
     public function showByIdPegawai($id) {

@@ -20,12 +20,12 @@ class MobilController extends Controller
                 'message' => 'Retrieve All Success',
                 'data' => $mobils
             ], 200);
-
-            return response([
-                'message' => 'Empty',
-                'data' => null
-            ], 400);
         }
+
+        return response([
+            'message' => 'Empty',
+            'data' => null
+        ], 400);
     }
 
     public function show($id) {
@@ -171,7 +171,7 @@ class MobilController extends Controller
     public function showAvailable() {
         $mobil = Mobil::where('status_sewa', 'Available')->get();
 
-        if(!is_null($mobil)) {
+        if($mobil->isNotEmpty()) {
             return response([
                 'message' => 'Retrieve Mobil Success',
                 'data' => $mobil
@@ -185,9 +185,9 @@ class MobilController extends Controller
     }
 
     public function showKontrakAkanHabis() {
-        $mobil = DB::table('mobil')->where('kategori_aset', 'Aset Mitra')->whereRaw('DATEDIFF(now(), periode_kontrak_akhir) < ?', [30])->get();
+        $mobil = Mobil::where('kategori_aset', 'Aset Mitra')->whereRaw('DATEDIFF(periode_kontrak_akhir, now()) < ?', [120])->get();
 
-        if(!is_null($mobil)) {
+        if($mobil->isNotEmpty()) {
             return response([
                 'message' => 'Retrieve Mobil Success',
                 'data' => $mobil
