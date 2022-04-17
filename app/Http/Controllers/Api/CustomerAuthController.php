@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerAuthControlller extends Controller
+class CustomerAuthController extends Controller
 {
     //
     public function register(Request $request) {

@@ -17,10 +17,10 @@ class RoleAdministrasi
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('pegawai')->user()->id_role == 2) {
+        if(Auth::guard('pegawai_api')->user()->id_role == 2) {
             return $next($request);
         }
-        
+
         abort(403, 'Access Denied');
     }
 }

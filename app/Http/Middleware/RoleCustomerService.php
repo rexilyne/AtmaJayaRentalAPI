@@ -17,7 +17,7 @@ class RoleCustomerService
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('pegawai')->user()->id_role == 3) {
+        if(Auth::guard('pegawai_api')->user()->id_role == 3) {
             return $next($request);
         }
         
