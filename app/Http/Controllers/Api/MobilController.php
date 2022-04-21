@@ -63,7 +63,7 @@ class MobilController extends Controller
             'status_sewa' => 'required',
             'tanggal_terakhir_kali_servis' => 'required|date',
             'periode_kontrak_mulai' => 'required|date',
-            'periode_kontrak_selesai' => 'required|date',
+            'periode_kontrak_akhir' => 'required|date',
             'url_foto' => 'required'
         ]);
 
@@ -88,7 +88,9 @@ class MobilController extends Controller
             ], 404);
         }
 
-        if($mobil->delete()) {
+        $mobil->status_mobil = 'Tidak Aktif';
+
+        if($mobil->save()) {
             return response([
                 'message' => 'Delete Mobil Success',
                 'data' => $mobil
@@ -129,7 +131,7 @@ class MobilController extends Controller
             'status_sewa' => 'required',
             'tanggal_terakhir_kali_servis' => 'required|date',
             'periode_kontrak_mulai' => 'required|date',
-            'periode_kontrak_selesai' => 'required|date',
+            'periode_kontrak_akhir' => 'required|date',
             'url_foto' => 'required'
         ]);
 
@@ -169,7 +171,7 @@ class MobilController extends Controller
     }
 
     public function showAvailable() {
-        $mobil = Mobil::where('status_sewa', 'Available')->get();
+        $mobil = Mobil::where('status_mobil', 'Aktif')->where('status_sewa', 'Available')->get();
 
         if($mobil->isNotEmpty()) {
             return response([
@@ -213,7 +215,7 @@ class MobilController extends Controller
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
             'periode_kontrak_mulai' => 'required|date',
-            'periode_kontrak_selesai' => 'required|date',
+            'periode_kontrak_akhir' => 'required|date',
         ]);
 
         if($validate->fails())

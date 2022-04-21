@@ -48,7 +48,7 @@ class CustomerController extends Controller
         $storeData = $request->all();
 
         $custRegDate = date('ymd');
-        $lastCustId = DB::table('customer')->latest()->first();
+        $lastCustId = DB::table('customer')->latest()->first()->id;
         if(is_null($lastCustId)) {
             $lastCustId = 0;
         }
@@ -84,7 +84,7 @@ class CustomerController extends Controller
     }
 
     public function destroy($id) {
-        $customer = Customer::where('id_customer', $id)->get();
+        $customer = Customer::where('id_customer', $id)->first();
 
         if(is_null($customer)) {
             return response([
@@ -109,7 +109,7 @@ class CustomerController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $customer = Customer::where('id_customer', $id)->get();
+        $customer = Customer::where('id_customer', $id)->first();
 
         if(is_null($customer)) {
             return response([

@@ -77,7 +77,7 @@ class DetailJadwalController extends Controller
     }
 
     public function destroyByIdPegawai($id) {
-        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->get();
+        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->first();
 
         if(is_null($detailJadwal)) {
             return response([
@@ -100,7 +100,7 @@ class DetailJadwalController extends Controller
     }
 
     public function destroyByIdJadwal($id) {
-        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->get();
+        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->first();
 
         if(is_null($detailJadwal)) {
             return response([
@@ -123,7 +123,7 @@ class DetailJadwalController extends Controller
     }
 
     public function updateByIdPegawai(Request $request, $id) {
-        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->get();
+        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->first();
 
         if(is_null($detailJadwal)) {
             return response([
@@ -158,7 +158,7 @@ class DetailJadwalController extends Controller
     }
 
     public function updateByIdJadwal(Request $request, $id) {
-        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->get();
+        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->first();
 
         if(is_null($detailJadwal)) {
             return response([

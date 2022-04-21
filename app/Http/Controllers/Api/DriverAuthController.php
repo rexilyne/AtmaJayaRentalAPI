@@ -16,7 +16,7 @@ class DriverAuthController extends Controller
         $registerData = $request->all();
 
         $drivRegDate = date('ymd');
-        $lastDrivId = DB::table('customer')->latest()->first();
+        $lastDrivId = DB::table('driver')->latest('id')->first()->id;
         if(is_null($lastDrivId)) {
             $lastDrivId = 0;
         }
@@ -24,6 +24,7 @@ class DriverAuthController extends Controller
         $registerData['id_driver'] =  'DRV'.$drivRegDate.'-'.$drivId;
 
         $registerData['status_akun'] = 'Aktif';
+        $registerData['status_driver'] = 'Available';
         $registerData['password'] = bcrypt($registerData['tanggal_lahir']);
 
         $validate = Validator::make($registerData, [

@@ -24,6 +24,7 @@ class PegawaiSeeder extends Seeder
         $jenisKelamin = ($gender === 'male' ? 'Laki-laki' : 'Perempuan');
         $firstNamePeg = $faker->firstName($gender);
         $lastNamePeg = $faker->lastName($gender);
+        $tanggalLahirPeg = $faker->date($format = 'Y-m-d', $max = '-20years');
         DB::table('pegawai')->insert([
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -31,11 +32,11 @@ class PegawaiSeeder extends Seeder
             'id_role' => 1,
             'nama' => $firstNamePeg.' '.$lastNamePeg,
             'alamat' => $faker->address(),
-            'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '-20years'),
+            'tanggal_lahir' => $tanggalLahirPeg,
             'jenis_kelamin' => $jenisKelamin,
             'email' => $firstNamePeg.'.'.$lastNamePeg.'@gmail.com',
             'no_telp' => $faker->phoneNumber(),
-            'password' => bcrypt('password123'),
+            'password' => bcrypt($tanggalLahirPeg),
             'url_foto' => $faker->imageUrl(),
         ]);
         Pegawai::factory(9)->create();

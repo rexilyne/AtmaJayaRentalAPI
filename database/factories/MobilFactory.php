@@ -162,6 +162,7 @@ class MobilFactory extends Factory
 
         return [
             //
+            'status_mobil' => 'Aktif',
             'id_pemilik_mobil' => $idPemilikMobil,
             'nama_mobil' => $namaMobil,
             'tipe_mobil' => $tipeMobil,

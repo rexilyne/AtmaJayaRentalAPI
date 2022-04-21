@@ -86,7 +86,7 @@ class PenyewaanController extends Controller
         } else if($storeData['jenis_penyewaan'] === 'Penyewaan Mobil') {
             $idJenisPenyewaan = 0;
         }
-        $lastSewaId = DB::table('penyewaan')->latest()->first();
+        $lastSewaId = DB::table('penyewaan')->latest()->first()->id;
         if(is_null($lastSewaId)) {
             $lastSewaId = 0;
         }
@@ -132,7 +132,7 @@ class PenyewaanController extends Controller
     }
 
     public function destroy($id) {
-        $penyewaan = Penyewaan::where('id_penyewaan', $id)->get();
+        $penyewaan = Penyewaan::where('id_penyewaan', $id)->first();
 
         if(is_null($penyewaan)) {
             return response([
@@ -155,7 +155,7 @@ class PenyewaanController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $penyewaan = Penyewaan::where('id_penyewaan', $id)->get();
+        $penyewaan = Penyewaan::where('id_penyewaan', $id)->first();
 
         if(is_null($penyewaan)) {
             return response([

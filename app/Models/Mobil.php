@@ -13,6 +13,7 @@ class Mobil extends Model
     protected $primaryKey = 'id_mobil';
 
     protected $fillable = [
+        'status_mobil',
         'id_pemilik_mobil',
         'nama_mobil',
         'tipe_mobil',
@@ -29,7 +30,7 @@ class Mobil extends Model
         'status_sewa',
         'tanggal_terakhir_kali_servis',
         'periode_kontrak_mulai',
-        'periode_kontrak_selesai',
+        'periode_kontrak_akhir',
         'url_foto'
     ];
 }

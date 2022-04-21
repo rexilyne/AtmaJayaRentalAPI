@@ -49,7 +49,7 @@ class DriverController extends Controller
         $storeData = $request->all();
 
         $drivRegDate = date('ymd');
-        $lastDrivId = DB::table('customer')->latest()->first();
+        $lastDrivId = DB::table('driver')->latest()->first()->id;
         if(is_null($lastDrivId)) {
             $lastDrivId = 0;
         }
@@ -57,6 +57,7 @@ class DriverController extends Controller
         $storeData['id_driver'] =  'DRV'.$drivRegDate.'-'.$drivId;
 
         $storeData['status_akun'] = 'Aktif';
+        $storeData['status_driver'] = 'Available';
         $storeData['password'] = bcrypt($storeData['tanggal_lahir']);
 
         $validate = Validator::make($storeData, [
@@ -91,7 +92,7 @@ class DriverController extends Controller
     }
 
     public function destroy($id) {
-        $driver = Driver::where('id_driver', $id)->get();
+        $driver = Driver::where('id_driver', $id)->first();
 
         if(is_null($driver)) {
             return response([
@@ -116,7 +117,7 @@ class DriverController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $driver = Driver::where('id_driver', $id)->get();
+        $driver = Driver::where('id_driver', $id)->first();
 
         if(is_null($driver)) {
             return response([

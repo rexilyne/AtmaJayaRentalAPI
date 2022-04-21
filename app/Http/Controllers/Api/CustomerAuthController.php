@@ -16,7 +16,7 @@ class CustomerAuthController extends Controller
         $registerData = $request->all();
 
         $custRegDate = date('ymd');
-        $lastCustId = DB::table('customer')->latest()->first();
+        $lastCustId = DB::table('customer')->latest()->first()->id;
         if(is_null($lastCustId)) {
             $lastCustId = 0;
         }

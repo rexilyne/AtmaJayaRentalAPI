@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('mobil', function (Blueprint $table) {
             $table->increments('id_mobil');
             $table->timestamps();
+            $table->string('status_mobil');
             $table->unsignedInteger('id_pemilik_mobil')->nullable();
             $table->string('nama_mobil');
             $table->string('tipe_mobil');
