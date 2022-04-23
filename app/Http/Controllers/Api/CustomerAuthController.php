@@ -16,9 +16,11 @@ class CustomerAuthController extends Controller
         $registerData = $request->all();
 
         $custRegDate = date('ymd');
-        $lastCustId = DB::table('customer')->latest()->first()->id;
+        $lastCustId = DB::table('customer')->latest()->first();
         if(is_null($lastCustId)) {
             $lastCustId = 0;
+        } else {
+            $lastCustId = DB::table('customer')->latest()->first()->id;
         }
         $custId = $lastCustId + 1;
         $registerData['id_customer'] =  'CUS'.$custRegDate.'-'.$custId;

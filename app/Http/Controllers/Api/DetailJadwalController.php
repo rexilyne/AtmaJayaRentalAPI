@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DetailJadwal;
+use Illuminate\Support\Facades\DB;
 
 class DetailJadwalController extends Controller
 {
     //
     public function index() {
-        $detailJadwals = DetailJadwal::all();
+        // $detailJadwals = DetailJadwal::all();
+        $detailJadwals = DB::table('detail_jadwal')
+                            ->join('pegawai', 'detail_jadwal.id_pegawai', '=', 'pegawai.id_pegawai')
+                            ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id_jadwal')
+                            ->get();
+
 
         if(count($detailJadwals) > 0) {
             return response([
@@ -27,9 +33,14 @@ class DetailJadwalController extends Controller
     }
 
     public function showByIdPegawai($id) {
-        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->get();
+        // $detailJadwal = DetailJadwal::where('id_pegawai', $id)->get();
+        $detailJadwal = DB::table('detail_jadwal')
+                            ->join('pegawai', 'detail_jadwal.id_pegawai', '=', 'pegawai.id_pegawai')
+                            ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id_jadwal')
+                            ->where('pegawai.id_pegawai', $id)
+                            ->get();
 
-        if(!is_null($detailJadwal)) {
+        if($detailJadwal->isNotEmpty()) {
             return response([
                 'message' => 'Retrieve Detail Jadwal Success',
                 'data' => $detailJadwal
@@ -43,9 +54,14 @@ class DetailJadwalController extends Controller
     }
 
     public function showByIdJadwal($id) {
-        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->get();
+        // $detailJadwal = DetailJadwal::where('id_jadwal', $id)->get();
+        $detailJadwal = DB::table('detail_jadwal')
+                            ->join('pegawai', 'detail_jadwal.id_pegawai', '=', 'pegawai.id_pegawai')
+                            ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id_jadwal')
+                            ->where('jadwal.id_jadwal', $id)
+                            ->get();
 
-        if(!is_null($detailJadwal)) {
+        if($detailJadwal->isNotEmpty()) {
             return response([
                 'message' => 'Retrieve Detail Jadwal Success',
                 'data' => $detailJadwal

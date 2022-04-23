@@ -60,6 +60,14 @@ Route::controller(CustomerController::class)->middleware('auth:customer_api')->g
     Route::delete('/customer/delete/{id}', 'destroy');
 });
 
+Route::controller(CustomerController::class)->middleware(['auth:customer_api', 'role.customerservice'])->group(function () {
+    Route::get('/keloladata/customer', 'index');
+    Route::get('/keloladata/customer/show/{id}', 'show');
+    Route::post('/keloladata/customer/store', 'store');
+    Route::put('/keloladata/customer/update/{id}', 'update');
+    Route::delete('/keloladata/customer/delete/{id}', 'destroy');
+});
+
 Route::controller(DetailJadwalController::class)->middleware('auth:pegawai_api')->group(function () {
     Route::get('/detailjadwal', 'index');
     Route::get('/detailjadwal/get/idpegawai/{id}', 'showByIdPegawai');

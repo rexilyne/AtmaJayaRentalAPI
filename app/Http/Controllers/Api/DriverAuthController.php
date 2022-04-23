@@ -16,9 +16,11 @@ class DriverAuthController extends Controller
         $registerData = $request->all();
 
         $drivRegDate = date('ymd');
-        $lastDrivId = DB::table('driver')->latest('id')->first()->id;
+        $lastDrivId = DB::table('driver')->latest('id')->first();
         if(is_null($lastDrivId)) {
             $lastDrivId = 0;
+        } else {
+            $lastDrivId = DB::table('driver')->latest('id')->first()->id;
         }
         $drivId = $lastDrivId + 1;
         $registerData['id_driver'] =  'DRV'.$drivRegDate.'-'.$drivId;
