@@ -27,7 +27,7 @@ class JadwalController extends Controller
     }
 
     public function show($idJadwal) {
-        $jadwal = Jadwal::where('id_jadwal', $idJadwal)->get();
+        $jadwal = Jadwal::where('id_jadwal', $idJadwal)->first();
 
         if(!is_null($jadwal)) {
             return response([

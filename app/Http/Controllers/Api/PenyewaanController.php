@@ -29,7 +29,7 @@ class PenyewaanController extends Controller
     }
 
     public function showByIdPenyewaan($id) {
-        $penyewaan = Penyewaan::where('id_penyewaan', $id)->get();
+        $penyewaan = Penyewaan::where('id_penyewaan', $id)->first();
 
         if(!is_null($penyewaan)) {
             return response([

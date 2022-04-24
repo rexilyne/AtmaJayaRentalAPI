@@ -28,9 +28,14 @@ class ImageController extends Controller
           
             $imageName = Str::random(10).'.'.$extension;
 
-            /** @var \Illuminate\Support\Facades\Storage $imgUrl **/
-            $imgUrl = url('storage/app/public/'.$imageName);;
+            //for Hosting
+            // /** @var \Illuminate\Support\Facades\Storage $imgUrl **/
+            // $imgUrl = url('storage/app/public/'.$imageName);;
           
+            //for localhost
+            /** @var \Illuminate\Support\Facades\Storage $imgUrl **/
+            $imgUrl = url('storage/'.$imageName);;
+
             Storage::disk('public')->put($imageName, base64_decode($image));
 
             return response([

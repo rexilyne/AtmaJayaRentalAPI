@@ -29,7 +29,7 @@ class CustomerController extends Controller
     }
 
     public function show($id) {
-        $customer = Customer::where('id_customer', $id)->get();
+        $customer = Customer::where('id_customer', $id)->first();
 
         if(!is_null($customer)) {
             return response([
@@ -120,8 +120,6 @@ class CustomerController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'id_customer' => ['required', Rule::unique('customer')->ignore($customer)],
-            'status_akun' => 'required',
             'nama' => 'required',
             'alamat' => 'required',
             'tanggal_lahir' => 'required|date',

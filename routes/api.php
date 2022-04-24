@@ -31,7 +31,7 @@ use App\Http\Controllers\Api\PegawaiAuthController;
 //     return $request->user();
 // });
 
-Route::post('/storeImage', [ImageController::class, 'storeImage']);
+Route::post('/storeimage', [ImageController::class, 'storeImage']);
 
 Route::controller(CustomerAuthController::class)->group(function() {
     Route::post('/register/customer', 'register');

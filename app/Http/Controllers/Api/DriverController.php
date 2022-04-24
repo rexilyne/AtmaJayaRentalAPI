@@ -30,7 +30,7 @@ class DriverController extends Controller
     }
 
     public function show($id) {
-        $driver = Driver::where('id_driver', $id)->get();
+        $driver = Driver::where('id_driver', $id)->first();
 
         if(!is_null($driver)) {
             return response([
