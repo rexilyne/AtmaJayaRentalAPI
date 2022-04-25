@@ -42,6 +42,22 @@ class JadwalController extends Controller
         ], 404);
     }
 
+    public function showByHariAndShift($hari, $shift) {
+        $jadwal = Jadwal::where('hari', $hari)->where('shift', $shift)->first();
+
+        if(!is_null($jadwal)) {
+            return response([
+                'message' => 'Retrieve Jadwal Success',
+                'data' => $jadwal
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Jadwal Not Found',
+            'data' => null
+        ], 404);
+    }
+
     public function store(Request $request) {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [

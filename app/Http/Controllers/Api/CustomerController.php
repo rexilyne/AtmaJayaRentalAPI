@@ -120,6 +120,7 @@ class CustomerController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
+            'status_akun' => 'required',
             'nama' => 'required',
             'alamat' => 'required',
             'tanggal_lahir' => 'required|date',
@@ -140,7 +141,7 @@ class CustomerController extends Controller
         $customer->jenis_kelamin = $updateData['jenis_kelamin'];
         $customer->email = $updateData['email'];
         $customer->no_telp = $updateData['no_telp'];
-        $customer->password = $updateData['password'];
+        $customer->password = bcrypt($updateData['password']);
         $customer->url_sim = $updateData['url_sim'];
         $customer->url_kartu_identitas = $updateData['url_kartu_identitas'];
 

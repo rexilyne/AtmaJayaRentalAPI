@@ -13,6 +13,8 @@ class PegawaiAuthController extends Controller
     //
     public function register(Request $request) {
         $registerData = $request->all();
+        $registerData['status_akun'] = 'Aktif';
+        $registerData['password'] = bcrypt($registerData['tanggal_lahir']);
         $validate = Validator::make($registerData, [
             'status_akun' => 'required',
             'id_role' => 'required',

@@ -45,6 +45,7 @@ class PemilikMobilController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
+        $storeData['status_pemilik'] = "Aktif";
         $validate = Validator::make($storeData, [
             'status_pemilik' => 'required',
             'nama' => 'required',
@@ -101,7 +102,6 @@ class PemilikMobilController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'status_pemilik' => 'required',
             'nama' => 'required',
             'no_ktp' => 'required',
             'alamat' => 'required',

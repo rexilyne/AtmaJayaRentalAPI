@@ -6,12 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DetailJadwal;
+use App\Models\Pegawai;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+
+use function PHPUnit\Framework\isEmpty;
 
 class DetailJadwalController extends Controller
 {
     //
     public function index() {
+        if(is_null(DetailJadwal::all())) {
+            return response([
+                'message' => 'Empty',
+                'data' => null
+            ], 400);
+        }
         // $detailJadwals = DetailJadwal::all();
         $detailJadwals = DB::table('detail_jadwal')
                             ->join('pegawai', 'detail_jadwal.id_pegawai', '=', 'pegawai.id_pegawai')
@@ -33,6 +43,12 @@ class DetailJadwalController extends Controller
     }
 
     public function showByIdPegawai($id) {
+        if(DetailJadwal::where('id_pegawai', $id)->get()->isEmpty()) {
+            return response([
+                'message' => 'Empty',
+                'data' => null
+            ], 400);
+        }
         // $detailJadwal = DetailJadwal::where('id_pegawai', $id)->get();
         $detailJadwal = DB::table('detail_jadwal')
                             ->join('pegawai', 'detail_jadwal.id_pegawai', '=', 'pegawai.id_pegawai')
@@ -54,6 +70,12 @@ class DetailJadwalController extends Controller
     }
 
     public function showByIdJadwal($id) {
+        if(DetailJadwal::where('id_jadwal', $id)->get().isEmpty()) {
+            return response([
+                'message' => 'Empty',
+                'data' => null
+            ], 400);
+        }
         // $detailJadwal = DetailJadwal::where('id_jadwal', $id)->get();
         $detailJadwal = DB::table('detail_jadwal')
                             ->join('pegawai', 'detail_jadwal.id_pegawai', '=', 'pegawai.id_pegawai')
@@ -76,10 +98,33 @@ class DetailJadwalController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
+        $cekJumlahShift = DetailJadwal::where('id_pegawai', $storeData['id_pegawai'])->count();
+        
+        if($cekJumlahShift == 6) {
+            return response([
+                'message' => '1 Pegawai maksimal 6 shift',
+            ], 400);
+        }
+
         $validate = Validator::make($storeData, [
-            'id_jadwal' => 'required',
-            'id_pegawai' => 'required'
+            'id_jadwal' => ['required', Rule::unique('detail_jadwal', 'id_jadwal')->where(
+                function ($query) use ($storeData) {
+                    return $query->where([
+                        ["id_jadwal", "=", $storeData['id_jadwal']],
+                        ["id_pegawai", "=", $storeData['id_pegawai']]
+                    ]
+                );
+            })],
+            'id_pegawai' => ['required', Rule::unique('detail_jadwal', 'id_pegawai')->where(
+                function ($query) use ($storeData) {
+                    return $query->where([
+                        ["id_jadwal", "=", $storeData['id_jadwal']],
+                        ["id_pegawai", "=", $storeData['id_pegawai']]
+                    ]
+                );
+            })]
         ]);
+
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
@@ -92,8 +137,8 @@ class DetailJadwalController extends Controller
         ], 200);
     }
 
-    public function destroyByIdPegawai($id) {
-        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->first();
+    public function destroy($id_pegawai, $id_jadwal) {
+        $detailJadwal = DetailJadwal::where('id_pegawai', $id_pegawai)->where('id_jadwal', $id_jadwal)->first();
 
         if(is_null($detailJadwal)) {
             return response([
@@ -102,7 +147,7 @@ class DetailJadwalController extends Controller
             ], 404);
         }
 
-        if($detailJadwal->delete()) {
+        if(DetailJadwal::where('id_pegawai', $id_pegawai)->where('id_jadwal', $id_jadwal)->delete()) {
             return response([
                 'message' => 'Delete Detail Jadwal Success',
                 'data' => $detailJadwal
@@ -115,50 +160,76 @@ class DetailJadwalController extends Controller
         ], 400);
     }
 
-    public function destroyByIdJadwal($id) {
-        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->first();
+    // public function destroyByIdJadwal($id) {
+    //     $detailJadwal = DetailJadwal::where('id_jadwal', $id)->first();
 
-        if(is_null($detailJadwal)) {
-            return response([
-                'message' => 'Detail Jadwal Not Found',
-                'data' => null
-            ], 404);
-        }
+    //     if(is_null($detailJadwal)) {
+    //         return response([
+    //             'message' => 'Detail Jadwal Not Found',
+    //             'data' => null
+    //         ], 404);
+    //     }
 
-        if($detailJadwal->delete()) {
-            return response([
-                'message' => 'Delete Detail Jadwal Success',
-                'data' => $detailJadwal
-            ], 200);
-        }
+    //     if($detailJadwal->delete()) {
+    //         return response([
+    //             'message' => 'Delete Detail Jadwal Success',
+    //             'data' => $detailJadwal
+    //         ], 200);
+    //     }
 
-        return response([
-            'message' => 'Delete Detail Jadwal Failed',
-            'data' => null
-        ], 400);
-    }
+    //     return response([
+    //         'message' => 'Delete Detail Jadwal Failed',
+    //         'data' => null
+    //     ], 400);
+    // }
 
-    public function updateByIdPegawai(Request $request, $id) {
-        $detailJadwal = DetailJadwal::where('id_pegawai', $id)->first();
-
-        if(is_null($detailJadwal)) {
-            return response([
-                'message' => 'Detail Jadwal Not Found',
-                'data' => null
-            ], 404);
-        }
-
+    public function update(Request $request, $id_pegawai, $id_jadwal) {
         $updateData = $request->all();
+        $detailJadwal = DetailJadwal::where('id_pegawai', $id_pegawai)->where('id_jadwal', $id_jadwal)->first();
+// dd($updateData['id_pegawai']);
+        if(is_null($detailJadwal)) {
+            return response([
+                'message' => 'Detail Jadwal Not Found',
+                'data' => null
+            ], 404);
+        }
+
         $validate = Validator::make($updateData, [
-            'id_jadwal' => 'required',
-            'id_pegawai' => 'required'
+            'id_jadwal' => ['required', Rule::unique('detail_jadwal', 'id_jadwal')->where(
+                function ($query) use ($updateData) {
+                    return $query->where([
+                        ["id_jadwal", "=", $updateData['id_jadwal']],
+                        ["id_pegawai", "=", $updateData['id_pegawai']]
+                    ]
+                );
+            })->ignore($detailJadwal)],
+            'id_pegawai' => ['required', Rule::unique('detail_jadwal', 'id_pegawai')->where(
+                function ($query) use ($updateData) {
+                    return $query->where([
+                        ["id_jadwal", "=", $updateData['id_jadwal']],
+                        ["id_pegawai", "=", $updateData['id_pegawai']]
+                    ]
+                );
+            })->ignore($detailJadwal)]
         ]);
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $detailJadwal->id_jadwal = $updateData['id_jadwal'];
-        $detailJadwal->id_pegawai = $updateData['id_pegawai'];
+        // $detailJadwal->id_jadwal = $updateData['id_jadwal'];
+        // $detailJadwal->id_pegawai = $updateData['id_pegawai'];
+
+        if(DetailJadwal::where('id_pegawai', $id_pegawai)
+                        ->where('id_jadwal', $id_jadwal)
+                        ->update([
+                            'id_pegawai' => $updateData['id_pegawai'],
+                            'id_jadwal' => $updateData['id_jadwal']
+                        ])) {
+            return response([
+                'message' => 'Update Detail Jadwal Success',
+                'data' => $detailJadwal
+            ], 200);
+        }
 
         if($detailJadwal->save()) {
             return response([
@@ -173,40 +244,54 @@ class DetailJadwalController extends Controller
         ], 400);
     }
 
-    public function updateByIdJadwal(Request $request, $id) {
-        $detailJadwal = DetailJadwal::where('id_jadwal', $id)->first();
+    // public function updateByIdJadwal(Request $request, $id) {
+    //     $detailJadwal = DetailJadwal::where('id_jadwal', $id)->first();
 
-        if(is_null($detailJadwal)) {
-            return response([
-                'message' => 'Detail Jadwal Not Found',
-                'data' => null
-            ], 404);
-        }
+    //     if(is_null($detailJadwal)) {
+    //         return response([
+    //             'message' => 'Detail Jadwal Not Found',
+    //             'data' => null
+    //         ], 404);
+    //     }
 
-        $updateData = $request->all();
-        $validate = Validator::make($updateData, [
-            'id_jadwal' => 'required',
-            'id_pegawai' => 'required'
-        ]);
+    //     $updateData = $request->all();
+    //     $validate = Validator::make($updateData, [
+    //         'id_jadwal' => ['required', Rule::unique('detail_jadwal', 'id_jadwal')->where(
+    //             function ($query) use ($updateData) {
+    //                 return $query->where([
+    //                     ["id_jadwal", "=", $updateData['id_jadwal']],
+    //                     ["id_pegawai", "=", $updateData['id_pegawai']]
+    //                 ]
+    //             );
+    //         })->ignore($detailJadwal)],
+    //         'id_pegawai' => ['required', Rule::unique('detail_jadwal', 'id_pegawai')->where(
+    //             function ($query) use ($updateData) {
+    //                 return $query->where([
+    //                     ["id_jadwal", "=", $updateData['id_jadwal']],
+    //                     ["id_pegawai", "=", $updateData['id_pegawai']]
+    //                 ]
+    //             );
+    //         })->ignore($detailJadwal)]
+    //     ]);
 
-        if($validate->fails())
-            return response(['message' => $validate->errors()], 400);
+    //     if($validate->fails())
+    //         return response(['message' => $validate->errors()], 400);
 
-        $detailJadwal->id_jadwal = $updateData['id_jadwal'];
-        $detailJadwal->id_pegawai = $updateData['id_pegawai'];
+    //     $detailJadwal->id_jadwal = $updateData['id_jadwal'];
+    //     $detailJadwal->id_pegawai = $updateData['id_pegawai'];
 
-        if($detailJadwal->save()) {
-            return response([
-                'message' => 'Update Detail Jadwal Success',
-                'data' => $detailJadwal
-            ], 200);
-        }
+    //     if($detailJadwal->save()) {
+    //         return response([
+    //             'message' => 'Update Detail Jadwal Success',
+    //             'data' => $detailJadwal
+    //         ], 200);
+    //     }
 
-        return response([
-            'message' => 'Update Detail Jadwal Failed',
-            'data' => null
-        ], 400);
-    }
+    //     return response([
+    //         'message' => 'Update Detail Jadwal Failed',
+    //         'data' => null
+    //     ], 400);
+    // }
 
     public function cekSyaratPenjadwalan(Request $request) {
         $cekData = $request->all();

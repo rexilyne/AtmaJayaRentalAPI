@@ -46,26 +46,50 @@ class MobilController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
-        $validate = Validator::make($storeData, [
-            'id_pemilik_mobil' => 'required',
-            'nama_mobil' => 'required',
-            'tipe_mobil' => 'required',
-            'jenis_transmisi' => 'required',
-            'jenis_bahan_bakar' => 'required',
-            'warna_mobil' => 'required',
-            'volume_bagasi' => 'required',
-            'fasilitas' => 'required',
-            'kapasitas_penumpang' => 'required|numeric',
-            'plat_nomor' => 'required',
-            'nomor_stnk' => 'required',
-            'kategori_aset' => 'required',
-            'harga_sewa' =>'required|numeric',
-            'status_sewa' => 'required',
-            'tanggal_terakhir_kali_servis' => 'required|date',
-            'periode_kontrak_mulai' => 'required|date',
-            'periode_kontrak_akhir' => 'required|date',
-            'url_foto' => 'required'
-        ]);
+        $storeData['status_mobil'] = 'Aktif';
+        $validate = null;
+        if($storeData['id_pemilik_mobil'] != null) {
+            $validate = Validator::make($storeData, [
+                'status_mobil' => 'required',
+                'id_pemilik_mobil' => 'required',
+                'nama_mobil' => 'required',
+                'tipe_mobil' => 'required',
+                'jenis_transmisi' => 'required',
+                'jenis_bahan_bakar' => 'required',
+                'warna_mobil' => 'required',
+                'volume_bagasi' => 'required',
+                'fasilitas' => 'required',
+                'kapasitas_penumpang' => 'required|numeric',
+                'plat_nomor' => 'required',
+                'nomor_stnk' => 'required',
+                'kategori_aset' => 'required',
+                'harga_sewa' =>'required|numeric',
+                'status_sewa' => 'required',
+                'tanggal_terakhir_kali_servis' => 'required|date',
+                'periode_kontrak_mulai' => 'required|date',
+                'periode_kontrak_akhir' => 'required|date',
+                'url_foto' => 'required'
+            ]);
+        } else {
+            $validate = Validator::make($storeData, [
+                'status_mobil' => 'required',
+                'nama_mobil' => 'required',
+                'tipe_mobil' => 'required',
+                'jenis_transmisi' => 'required',
+                'jenis_bahan_bakar' => 'required',
+                'warna_mobil' => 'required',
+                'volume_bagasi' => 'required',
+                'fasilitas' => 'required',
+                'kapasitas_penumpang' => 'required|numeric',
+                'plat_nomor' => 'required',
+                'nomor_stnk' => 'required',
+                'kategori_aset' => 'required',
+                'harga_sewa' =>'required|numeric',
+                'status_sewa' => 'required',
+                'tanggal_terakhir_kali_servis' => 'required|date',
+                'url_foto' => 'required'
+            ]);
+        }
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
@@ -114,26 +138,47 @@ class MobilController extends Controller
         }
 
         $updateData = $request->all();
-        $validate = Validator::make($updateData, [
-            'id_pemilik_mobil' => 'required',
-            'nama_mobil' => 'required',
-            'tipe_mobil' => 'required',
-            'jenis_transmisi' => 'required',
-            'jenis_bahan_bakar' => 'required',
-            'warna_mobil' => 'required',
-            'volume_bagasi' => 'required',
-            'fasilitas' => 'required',
-            'kapasitas_penumpang' => 'required|numeric',
-            'plat_nomor' => 'required',
-            'nomor_stnk' => 'required',
-            'kategori_aset' => 'required',
-            'harga_sewa' =>'required|numeric',
-            'status_sewa' => 'required',
-            'tanggal_terakhir_kali_servis' => 'required|date',
-            'periode_kontrak_mulai' => 'required|date',
-            'periode_kontrak_akhir' => 'required|date',
-            'url_foto' => 'required'
-        ]);
+        $validate = null;
+        if($updateData['id_pemilik_mobil'] != null) {
+            $validate = Validator::make($updateData, [
+                'id_pemilik_mobil' => 'required',
+                'nama_mobil' => 'required',
+                'tipe_mobil' => 'required',
+                'jenis_transmisi' => 'required',
+                'jenis_bahan_bakar' => 'required',
+                'warna_mobil' => 'required',
+                'volume_bagasi' => 'required',
+                'fasilitas' => 'required',
+                'kapasitas_penumpang' => 'required|numeric',
+                'plat_nomor' => 'required',
+                'nomor_stnk' => 'required',
+                'kategori_aset' => 'required',
+                'harga_sewa' =>'required|numeric',
+                'status_sewa' => 'required',
+                'tanggal_terakhir_kali_servis' => 'required|date',
+                'periode_kontrak_mulai' => 'required|date',
+                'periode_kontrak_akhir' => 'required|date',
+                'url_foto' => 'required'
+            ]);
+        } else {
+            $validate = Validator::make($updateData, [
+                'nama_mobil' => 'required',
+                'tipe_mobil' => 'required',
+                'jenis_transmisi' => 'required',
+                'jenis_bahan_bakar' => 'required',
+                'warna_mobil' => 'required',
+                'volume_bagasi' => 'required',
+                'fasilitas' => 'required',
+                'kapasitas_penumpang' => 'required|numeric',
+                'plat_nomor' => 'required',
+                'nomor_stnk' => 'required',
+                'kategori_aset' => 'required',
+                'harga_sewa' =>'required|numeric',
+                'status_sewa' => 'required',
+                'tanggal_terakhir_kali_servis' => 'required|date',
+                'url_foto' => 'required'
+            ]);
+        }
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);

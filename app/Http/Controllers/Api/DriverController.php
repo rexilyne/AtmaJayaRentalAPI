@@ -59,6 +59,7 @@ class DriverController extends Controller
         $storeData['status_akun'] = 'Aktif';
         $storeData['status_driver'] = 'Available';
         $storeData['password'] = bcrypt($storeData['tanggal_lahir']);
+        $storeData['rerata_rating'] = 0;
 
         $validate = Validator::make($storeData, [
             'id_driver' => 'required|unique:driver',
@@ -128,7 +129,6 @@ class DriverController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'id_driver' => ['required', Rule::unique('driver')->ignore($driver)],
             'status_akun' => 'required',
             'nama' => 'required',
             'alamat' => 'required',
@@ -140,7 +140,6 @@ class DriverController extends Controller
             'status_driver' => 'required',
             'password' => 'required',
             'tarif_driver' => 'required',
-            'rerata_rating' => 'required',
             'url_sim' => 'required',
             'url_surat_bebas_napza' => 'required',
             'url_surat_kesehatan_jiwa' => 'required',
@@ -158,7 +157,7 @@ class DriverController extends Controller
         $driver->no_telp = $updateData['no_telp'];
         $driver->bahasa = $updateData['bahasa'];
         $driver->status_driver = $updateData['status_driver'];
-        $driver->password = $updateData['password'];
+        $driver->password = bcrypt($updateData['password']);
         $driver->tarif_driver = $updateData['tarif_driver'];
         $driver->rerata_rating = $updateData['rerata_rating'];
         $driver->url_sim = $updateData['url_sim'];

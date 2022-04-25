@@ -79,10 +79,10 @@ Route::controller(DetailJadwalController::class)->middleware(['auth:pegawai_api'
     Route::get('/keloladata/detailjadwal/get/idpegawai/{id}', 'showByIdPegawai');
     Route::get('/keloladata/detailjadwal/get/idjadwal/{id}', 'showByIdJadwal');
     Route::post('/keloladata/detailjadwal/store', 'store');
-    Route::put('/keloladata/detailjadwal/update/idpegawai/{id}', 'updateByIdPegawai');
-    Route::put('/keloladata/detailjadwal/update/idjadwal/{id}', 'updateByIdJadwal');
-    Route::delete('/keloladata/detailjadwal/delete/idpegawai/{id}', 'destroyByIdPegawai');
-    Route::delete('/keloladata/detailjadwal/delete/idjadwal/{id}', 'destroyByIdJadwal');
+    Route::put('/keloladata/detailjadwal/update/{id_pegawai}/{id_jadwal}', 'update');
+    // Route::put('/keloladata/detailjadwal/update/idjadwal/{id}', 'updateByIdJadwal');
+    Route::delete('/keloladata/detailjadwal/delete/{id_pegawai}/{id_jadwal}', 'destroy');
+    // Route::delete('/keloladata/detailjadwal/delete/idjadwal/{id}', 'destroyByIdJadwal');
     Route::get('/keloladata/detailjadwal/ceksyaratpenjadwalan', 'cekSyaratPenjadwalan');
 });
 
@@ -116,6 +116,7 @@ Route::controller(JadwalController::class)->middleware(['auth:pegawai_api', 'rol
     Route::post('/keloladata/jadwal/store', 'store');
     Route::put('/keloladata/jadwal/update/{id}', 'update');
     Route::delete('/keloladata/jadwal/delete/{id}', 'destroy');
+    Route::get('/keloladata/jadwal/get/{hari}/{shift}', 'showByHariAndShift');
 });
 
 Route::controller(MobilController::class)->group(function () {

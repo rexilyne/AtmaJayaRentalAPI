@@ -45,6 +45,8 @@ class PegawaiController extends Controller
 
     public function store(Request $request) {
         $storeData = $request->all();
+        $storeData['status_akun'] = 'Aktif';
+        $storeData['password'] = bcrypt($storeData['tanggal_lahir']);
         $validate = Validator::make($storeData, [
             'status_akun' => 'required',
             'id_role' => 'required',
@@ -128,7 +130,7 @@ class PegawaiController extends Controller
         $pegawai->jenis_kelamin = $updateData['jenis_kelamin'];
         $pegawai->email = $updateData['email'];
         $pegawai->no_telp = $updateData['no_telp'];
-        $pegawai->password = $updateData['password'];
+        $pegawai->password = bcrypt($updateData['password']);
         $pegawai->url_foto = $updateData['url_foto'];
 
         if($pegawai->save()) {
