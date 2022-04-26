@@ -75,7 +75,7 @@ class PemilikMobilController extends Controller
             ], 404);
         }
 
-        $pemilikMobil->status_akun = 'Tidak Aktif';
+        $pemilikMobil->status_pemilik = 'Tidak Aktif';
 
         if($pemilikMobil->save()) {
             return response([

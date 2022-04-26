@@ -38,7 +38,6 @@ class CustomerAuthController extends Controller
             'email' => 'required|email:rfc,dns|unique:customer',
             'no_telp' => 'required|unique:customer',
             'password' => 'required',
-            'url_sim' => 'required',
             'url_kartu_identitas' => 'required'
         ]);
 
@@ -82,6 +81,12 @@ class CustomerAuthController extends Controller
         /** @var \App\Models\Customer $user **/
         $user = Auth::guard('customer')->user();
         $token = $user->createToken('Authentication Token')->accessToken;
+
+        if($user->status_akun === "Tidak Aktif") {
+            return response([
+                'message' => 'Akun tidak aktif'
+            ], 401);
+        }
 
         return response([
             'message' => 'Authenticated',

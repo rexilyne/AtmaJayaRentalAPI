@@ -128,7 +128,6 @@ class CustomerController extends Controller
             'email' => ['required', 'email:rfc,dns', Rule::unique('customer')->ignore($customer)],
             'no_telp' => ['required', Rule::unique('customer')->ignore($customer)],
             'password' => 'required',
-            'url_sim' => 'required',
             'url_kartu_identitas' => 'required'
         ]);
 

@@ -90,6 +90,12 @@ class DriverAuthController extends Controller
         $user = Auth::guard('driver')->user();
         $token = $user->createToken('Authentication Token')->accessToken;
 
+        if($user->status_akun === "Tidak Aktif") {
+            return response([
+                'message' => 'Akun tidak aktif'
+            ], 401);
+        }
+
         return response([
             'message' => 'Authenticated',
             'user' => $user,

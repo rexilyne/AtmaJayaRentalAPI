@@ -48,7 +48,7 @@ class MobilController extends Controller
         $storeData = $request->all();
         $storeData['status_mobil'] = 'Aktif';
         $validate = null;
-        if($storeData['id_pemilik_mobil'] != null) {
+        if($storeData['kategori_aset'] === "Aset Mitra") {
             $validate = Validator::make($storeData, [
                 'status_mobil' => 'required',
                 'id_pemilik_mobil' => 'required',
@@ -71,6 +71,9 @@ class MobilController extends Controller
                 'url_foto' => 'required'
             ]);
         } else {
+            $storeData['id_pemilik_mobil'] = NULL;
+            $storeData['periode_kontrak_mulai'] = NULL;
+            $storeData['periode_kontrak_akhir'] = NULL;
             $validate = Validator::make($storeData, [
                 'status_mobil' => 'required',
                 'nama_mobil' => 'required',
@@ -139,7 +142,7 @@ class MobilController extends Controller
 
         $updateData = $request->all();
         $validate = null;
-        if($updateData['id_pemilik_mobil'] != null) {
+        if($updateData['kategori_aset'] === "Aset Mitra") {
             $validate = Validator::make($updateData, [
                 'id_pemilik_mobil' => 'required',
                 'nama_mobil' => 'required',

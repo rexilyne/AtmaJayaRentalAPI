@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('no_telp');
             $table->string('password');
-            $table->string('url_sim');
+            $table->string('url_sim')->nullable();
             $table->string('url_kartu_identitas');
         });
     }
