@@ -60,7 +60,7 @@ Route::controller(CustomerController::class)->middleware('auth:customer_api')->g
     Route::delete('/customer/delete/{id}', 'destroy');
 });
 
-Route::controller(CustomerController::class)->middleware(['auth:customer_api', 'role.customerservice'])->group(function () {
+Route::controller(CustomerController::class)->middleware(['auth:pegawai_api', 'role.customerservice'])->group(function () {
     Route::get('/keloladata/customer', 'index');
     Route::get('/keloladata/customer/show/{id}', 'show');
     Route::post('/keloladata/customer/store', 'store');
@@ -161,14 +161,37 @@ Route::controller(PemilikMobilController::class)->middleware(['auth:pegawai_api'
     Route::delete('/keloladata/pemilikmobil/delete/{id}', 'destroy');
 });
 
+Route::controller(PenyewaanController::class)->middleware(['auth:pegawai_api', 'role.customerservice'])->group(function () { //belum ada middleware
+    Route::get('/keloladata/penyewaan', 'index');
+    Route::get('/keloladata/penyewaan/show/nota', 'showNotaPenyewaanAll');
+    Route::get('/keloladata/penyewaan/show/nota/idcustomer/{id}', 'showNotaPenyewaanByIdCustomer');
+    Route::get('/keloladata/penyewaan/show/nota/iddriver/{id}', 'showNotaPenyewaanByIdDriver');
+    Route::get('/keloladata/penyewaan/show/idpenyewaan/{id}', 'showByIdPenyewaan');
+    Route::get('/keloladata/penyewaan/show/idcustomer/{id}', 'showByIdCustomer');
+    Route::get('/keloladata/penyewaan/show/iddriver/{id}', 'showByIdDriver');
+    Route::post('/keloladata/penyewaan/store', 'store');
+    Route::put('/keloladata/penyewaan/update/{id}', 'update');
+    Route::delete('/keloladata/penyewaan/delete/{id}', 'destroy');
+});
+
 Route::controller(PenyewaanController::class)->group(function () { //belum ada middleware
     Route::get('/penyewaan', 'index');
+    Route::get('/penyewaan/show/nota', 'showNotaPenyewaanAll');
+    Route::get('/penyewaan/show/nota/idcustomer/{id}', 'showNotaPenyewaanByIdCustomer');
+    Route::get('/penyewaan/show/nota/iddriver/{id}', 'showNotaPenyewaanByIdDriver');
     Route::get('/penyewaan/show/idpenyewaan/{id}', 'showByIdPenyewaan');
     Route::get('/penyewaan/show/idcustomer/{id}', 'showByIdCustomer');
     Route::get('/penyewaan/show/iddriver/{id}', 'showByIdDriver');
     Route::post('/penyewaan/store', 'store');
     Route::put('/penyewaan/update/{id}', 'update');
     Route::delete('/penyewaan/delete/{id}', 'destroy');
+    Route::put('/penyewaan/returnmobil/{id}', 'returnMobil');
+    Route::put('/penyewaan/hitungtotalharga/{id}', 'hitungTotalHarga');
+    Route::get('/penyewaan/laporan/penyewaanMobil/{bulan}/{tahun}', 'penyewaanMobil');
+    Route::get('/penyewaan/laporan/detailPendapatan/{bulan}/{tahun}', 'detailPendapatan');
+    Route::get('/penyewaan/laporan/topDriver/{bulan}/{tahun}', 'topDriver');
+    Route::get('/penyewaan/laporan/performaDriver/{bulan}/{tahun}', 'performaDriver');
+    Route::get('/penyewaan/laporan/topCustomer/{bulan}/{tahun}', 'topCustomer');
 });
 
 Route::controller(PromoController::class)->group(function () {

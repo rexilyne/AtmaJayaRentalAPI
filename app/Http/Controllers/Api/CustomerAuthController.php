@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class CustomerAuthController extends Controller
 {
@@ -43,6 +44,18 @@ class CustomerAuthController extends Controller
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
+
+        $tanggal_sekarang = date('Y-m-d');
+
+        $dateStart = Carbon::parse($registerData['tanggal_lahir']);
+        $dateEnd = Carbon::parse($tanggal_sekarang);
+        $yearInterval = $dateStart->diffInYears($dateEnd);
+
+        if($yearInterval < 17) {
+            return response([
+                'message' => 'Umur tidak memenuhi syarat pendaftaran'
+            ],400);
+        }
 
         $customer = Customer::create($registerData);
         

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('id_penyewaan')->unique();
             $table->timestamps();
-            $table->unsignedInteger('id_pegawai');
+            $table->unsignedInteger('id_pegawai')->nullable();
             $table->string('id_driver')->nullable();
             $table->string('id_customer');
             $table->unsignedInteger('id_mobil');
